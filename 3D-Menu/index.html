@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3d-menu</title>
+
+
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
+    <script src="https://unpkg.com/@c-frame/aframe-particle-system-component@1.2.x/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.6.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.3/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
+    <script src="https://unpkg.com/super-hands@^3.0.5/dist/super-hands.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@^4.1.1/dist/aframe-event-set-component.min.js"></script>
+
+
+
+
+  </head>
+  <body>
+    
+      <a-scene renderer="antialias: true;
+                        colorManagement: true
+                        sortTransparentObjects: true"
+              fog="type: linear; color: white; near: 1; far: 1000"
+              >
+
+        <a-assets>
+
+          <img id="courtain" src="https://media.istockphoto.com/id/174898663/photo/stage-curtain-red-velvet.jpg?s=612x612&w=0&k=20&c=L7hGSJAvEDXUXCbJOGEIxnJQnTxhWkmNqkrayIkAn5A=" />
+          <img id="wood" src="https://media.istockphoto.com/id/1423614623/photo/bamboo-wood-texture-background.jpg?s=612x612&w=0&k=20&c=eOGzTIhcgyI8JO2B6-2Go8kCzcin59hjK6eZtiz6uDo=" />
+          <img id="concrete" src="https://images.photowall.com/products/62937/solid-concrete-wall.jpg?h=699&q=85" />
+
+          <a-asset-item id="dish-model" src="./public/pizza.glb"></a-asset-item>
+          <a-asset-item id="test1" src="./public/test1.glb"></a-asset-item>
+          <a-assets-item id="light_bulb" src="./public/light_bulb.glb"></a-assets-item>
+
+        </a-assets>
+
+
+    <a-entity id="Environment">
+
+
+      <!-- Back curtain -->
+      <a-plane position="0 2.2 -2.2" rotation="0 0 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+      <!-- Front curtain -->
+      <a-plane position="0 2.2 2.2" rotation="0 180 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+      <!-- Left curtain -->
+      <a-plane position="-2.2 2.2 0" rotation="0 90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+      <!-- Right curtain -->
+      <a-plane position="2.2 2.2 0" rotation="0 -90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+      <!-- Top curtain -->
+      <a-plane position="0 3.2 0" rotation="90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
+      <!-- Bottom curtain (optional floor) -->
+      <a-plane position="0 0 0" rotation="-90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
+
+
+      <!-- Light bulb -->
+      <a-entity id="LightBulb" position="0 3 0" rotation="180 0 0" gltf-model="#light_bulb" scale="0.5 0.5 0.5">
+          <!-- Light -->
+          
+          <!--
+          <a-light id="Light" type="point" color="#ffffff" intensity="8" castShadow="true" position="0 3 0"></a-light>
+          -->
+      
+        </a-entity>
+
+
+    </a-entity>
+
+
+
+    <a-entity id="Display Table">
+
+      <!-- Top plane -->
+      <a-box position="0 0.5 0" rotation="0 0 0" width="3.5" height="0.1" depth="3.5" material="src: #wood"></a-box>
+      <!-- left pole -->
+      <a-box position="-1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+      <!-- right pole -->
+      <a-box position="1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+      <!-- left support -->
+      <a-box position="-1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+      <!-- right support -->
+      <a-box position="1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+
+    </a-entity>
+
+
+    <a-entity id="Dish" position="0 0.7 0">
+
+        
+        <a-entity gltf-model="#test1" scale="0.5 0.5 0.5"></a-entity>
+        
+
+    </a-entity>
+
+
+      
+      
+      
+      </a-scene>
+
+
+
+
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
