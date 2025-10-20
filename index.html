@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Menu VR Dashboard</title>
+
+    <link rel="stylesheet" href="styles.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
+    <script src="https://unpkg.com/@c-frame/aframe-particle-system-component@1.2.x/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.6.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.3/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
+    <script src="https://unpkg.com/super-hands@^3.0.5/dist/super-hands.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@^4.1.1/dist/aframe-event-set-component.min.js"></script>
+
+  </head>
+  <body>
+    
+    <aside class="sidebar"> 
+        <header class="sidebar-header">
+            <a href="/" class="site-logo">
+                <span class="logo-main">3D Menu</span>
+                <span class="logo-sub">3D Menu Showcase</span>
+            </a>
+        </header>
+
+        <nav id="main-menu" class="sidebar-nav current-menu">
+            <ul>
+                <li class="nav-item"><a href="#dashboard" data-info="Overview of your models">Dashboard</a></li>
+                <li class="nav-item has-submenu">
+                    <a href="#food-items" data-info="Browse all our interactive menu items">Our Menu</a>
+                    
+                    <ul class="submenu">
+                        <li class="nav-item"> 
+                            <a href="#" data-drilldown-target="menu-pizza-drilldown">Pizza</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" data-drilldown-target="menu-appetizers-drilldown">Appetizers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" data-drilldown-target="menu-desserts-drilldown">Desserts</a>
+                        </li>
+                        <li class="nav-item"><a href="#drinks">Drinks and Wine</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#upload-model" data-info="Add new 3D food models">Upload Model</a></li>
+                <li class="nav-item"><a href="#settings" data-info="Need help?">Contact Us</a></li>
+            </ul>
+        </nav>
+        
+        <nav id="menu-pizza-drilldown" class="sidebar-nav drilldown-menu" style="display: none;">
+            <div class="drill-header">
+                <a href="#" class="nav-back-button" data-drilldown-back>← Back to Menu</a>
+            </div>
+            <ul>
+                <li class="nav-item"><a href="#" data-model-id="margherita">Margherita</a></li>
+                <li class="nav-item"><a href="#" data-model-id="pepperoni">Pepperoni</a></li>
+                <li class="nav-item"><a href="#" data-model-id="veg-special">Veggie Special</a></li>
+            </ul>
+        </nav>
+
+        <nav id="menu-appetizers-drilldown" class="sidebar-nav drilldown-menu" style="display: none;">
+            <div class="drill-header">
+                <a href="#" class="nav-back-button" data-drilldown-back>← Back to Menu</a>
+            </div>
+            <ul>
+                <li class="nav-item"><a href="#" data-model-id="spring-rolls">Spring Rolls</a></li>
+                <li class="nav-item"><a href="#" data-model-id="garlic-bread">Garlic Bread</a></li>
+                <li class="nav-item"><a href="#" data-model-id="calamari">Calamari</a></li>
+            </ul>
+        </nav>
+
+        <nav id="menu-desserts-drilldown" class="sidebar-nav drilldown-menu" style="display: none;">
+            <div class="drill-header">
+                <a href="#" class="nav-back-button" data-drilldown-back>← Back to Menu</a>
+            </div>
+            <ul>
+                <li class="nav-item"><a href="#" data-model-id="tiramisu">Tiramisu</a></li>
+                <li class="nav-item"><a href="#" data-model-id="cheesecake">Cheesecake</a></li>
+            </ul>
+        </nav>
+        
+        <footer class="sidebar-footer">
+            <p>&copy; 2025 Pearse Flanagan</p>
+        </footer>
+    </aside>
+    
+    <main class="content">
+        <h3 class="content-title">Dashboard Overview</h3>
+
+        <div class="viewer-window">
+            <a-scene embedded
+                     renderer="antialias: true;
+                               colorManagement: true;
+                               sortTransparentObjects: true"
+                     fog="type: linear; color: white; near: 1; far: 1000">
+    
+              <a-assets>
+                <img id="courtain" src="https://media.istockphoto.com/id/174898663/photo/stage-curtain-red-velvet.jpg?s=612x612&w=0&k=20&c=L7hGSJAvEDXUXCbJOGEIxnJQnTxhWkmNqkrayIkAn5A=" />
+                <img id="wood" src="https://media.istockphoto.com/id/1423614623/photo/bamboo-wood-texture-background.jpg?s=612x612&w=0&k=20&c=eOGzTIhcgyI8JO2B6-2Go8kCzcin59hjK6eZtiz6uDo=" />
+                <img id="concrete" src="https://images.photowall.com/products/62937/solid-concrete-wall.jpg?h=699&q=85" />
+    
+                <a-asset-item id="pizza-model" src="./public/pizza.glb"></a-asset-item> 
+                <a-assets-item id="light_bulb" src="./public/light_bulb.glb"></a-assets-item>
+              </a-assets>
+    
+              <a-entity id="Environment">
+                <a-plane position="0 2.2 -2.2" rotation="0 0 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                <a-plane position="0 2.2 2.2" rotation="0 180 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                <a-plane position="-2.2 2.2 0" rotation="0 90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                <a-plane position="2.2 2.2 0" rotation="0 -90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                <a-plane position="0 3.2 0" rotation="90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
+                <a-plane position="0 0 0" rotation="-90 0 0" width="5" height="5" material="src: #wood; side: double"></a-plane>
+                <a-entity id="LightBulb" position="0 3 0" rotation="180 0 0" gltf-model="#light_bulb" scale="0.5 0.5 0.5">
+                    <a-light id="Light" type="point" color="#ffffff" intensity="8" castShadow="true" position="0 3 0"></a-light>
+                </a-entity>
+              </a-entity>
+    
+              <a-entity id="Dish-Viewer" position="0 0.7 0" visible="false">
+                <a-entity id="pizza-dish" gltf-model="#pizza-model" scale="1.5 1.5 1.5"></a-entity>
+              </a-entity>
+            </a-scene>
+            
+            <p id="viewer-placeholder">Click an item on the menu to view the interactive 3D model here.</p>
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.querySelector('.sidebar');
+            const mainMenu = document.getElementById('main-menu');
+            const placeholder = document.getElementById('viewer-placeholder');
+            const dishViewer = document.getElementById('Dish-Viewer');
+            const contentTitle = document.querySelector('.content-title');
+
+            let currentView = mainMenu;
+
+            function showDrilldown(targetId, title) {
+                // Hide current view
+                currentView.style.display = 'none';
+
+                // Find and show new drilldown view
+                const newView = document.getElementById(targetId);
+                if (newView) {
+                    newView.style.display = 'block';
+                    currentView = newView; 
+                    contentTitle.textContent = title;
+                }
+            }
+
+            function goBack() {
+                // Hide current drilldown view
+                currentView.style.display = 'none';
+
+                // Show the main menu (Level 0)
+                mainMenu.style.display = 'block';
+                currentView = mainMenu; 
+                contentTitle.textContent = 'Dashboard Overview';
+            }
+
+            function loadModel(modelId, linkText) {
+                 placeholder.style.display = 'none';
+                 // In a real app, you'd swap out the GLTF model based on modelId
+                 // For now, we'll just display the pizza model and update the title
+                 dishViewer.setAttribute('visible', 'true');
+                 contentTitle.textContent = `Viewing: ${linkText}`;
+                 console.log(`Loading model for: ${modelId}`);
+            }
+
+            // Listen for ALL link clicks in the sidebar
+            sidebar.addEventListener('click', (event) => {
+                const link = event.target.closest('a');
+                if (!link) return;
+
+                event.preventDefault(); 
+                
+                // 1. Drilldown Trigger (Pizza/Appetizers click)
+                const targetId = link.getAttribute('data-drilldown-target');
+                if (targetId) {
+                    // Title for the new drilldown view
+                    const title = `Menu: ${link.textContent.trim()} Items`;
+                    showDrilldown(targetId, title);
+                    return;
+                }
+                
+                // 2. Back Button Trigger
+                if (link.hasAttribute('data-drilldown-back')) {
+                    goBack();
+                    return;
+                }
+                
+                // 3. Model/Content Load Trigger (Items inside the drilldown)
+                const modelId = link.getAttribute('data-model-id');
+                if (modelId) {
+                    loadModel(modelId, link.textContent.trim());
+                    return;
+                }
+                
+                // 4. Other Main Links (Dashboard, Upload, Contact)
+                if (link.closest('.sidebar-nav') === mainMenu) {
+                    contentTitle.textContent = `${link.textContent.trim()} View`;
+                    placeholder.style.display = 'block';
+                    dishViewer.setAttribute('visible', 'false');
+                }
+            });
+
+        });
+    </script>
+  </body>
+</html>
