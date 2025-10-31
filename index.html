@@ -53,7 +53,9 @@
             <div class="drill-header">
             <a href="#" class="nav-back-button" data-drilldown-back>← Back to Menu</a>
             </div>
-            <ul></ul> <!-- JS will populate this -->
+
+            <ul></ul> <!-- Code will populate this -->
+
         </nav>
 
 
@@ -235,7 +237,8 @@
 
         fetch(url)
         .then(res => res.text())
-        .then(text => {
+        .then(text => 
+        {
             console.log("✅ CSV fetched!");
             const rows = text.split('\n').map(r => r.split(','));
             console.log("✅ Parsed rows:", rows);
@@ -243,21 +246,27 @@
             const pizzaList = document.querySelector('#menu-pizza-drilldown ul');
             pizzaList.innerHTML = '';
 
-            rows.slice(1).forEach(([dish, desc, p32, p40]) => {
-            if (!dish) return;
-            const li = document.createElement('li');
-            li.className = 'nav-item';
-            li.innerHTML = `
+            rows.slice(1).forEach(([dish, desc, p32, p40]) => 
+            {
+                if (!dish) return;
+
+                const li = document.createElement('li');
+                li.className = 'nav-item';
+
+                li.innerHTML = `
                 <a href="#" data-info="${desc}" data-price32="${p32}" data-price40="${p40}">
-                ${dish}
+                    <strong>${dish}</strong><br>
+                    <small>${desc ? desc : ''}</small><br>
+                    <small>32cm: ${p32 ? p32 : '-'} | 40cm: ${p40 ? p40 : '-'}</small>
                 </a>`;
-            pizzaList.appendChild(li);
+
+                pizzaList.appendChild(li);
+
             });
 
             console.log("✅ Menu generated from CSV!");
         })
         .catch(err => console.error("❌ Error fetching or processing data:", err));
-        (err => console.error("❌ Error fetching or processing data:", err));
                         
 
 
