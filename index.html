@@ -39,13 +39,9 @@
                         <li class="nav-item"> 
                             <a href="#" data-drilldown-target="menu-pizza-drilldown">Pizza</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" data-drilldown-target="menu-appetizers-drilldown">Appetizers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" data-drilldown-target="menu-desserts-drilldown">Desserts</a>
-                        </li>
+
                         <li class="nav-item"><a href="#drinks">Drinks and Wine</a></li>
+                        
                     </ul>
                 </li>
                 <li class="nav-item"><a href="#upload-model" data-info="Add new 3D food models">Upload Model</a></li>
@@ -53,37 +49,14 @@
             </ul>
         </nav>
         
-        <nav id="menu-pizza-drilldown" class="sidebar-nav drilldown-menu" style="display: none;">
+        <nav id="menu-pizza-drilldown" class="sidebar-nav drilldown-menu" style="display:none;">
             <div class="drill-header">
-                <a href="#" class="nav-back-button" data-drilldown-back>← Back to Menu</a>
+            <a href="#" class="nav-back-button" data-drilldown-back>← Back to Menu</a>
             </div>
-            <ul>
-                <li class="nav-item"><a href="#" data-model-id="margherita">Margherita</a></li>
-                <li class="nav-item"><a href="#" data-model-id="pepperoni">Pepperoni</a></li>
-                <li class="nav-item"><a href="#" data-model-id="veg-special">Veggie Special</a></li>
-            </ul>
+            <ul></ul> <!-- JS will populate this -->
         </nav>
 
-        <nav id="menu-appetizers-drilldown" class="sidebar-nav drilldown-menu" style="display: none;">
-            <div class="drill-header">
-                <a href="#" class="nav-back-button" data-drilldown-back>← Back to Menu</a>
-            </div>
-            <ul>
-                <li class="nav-item"><a href="#" data-model-id="spring-rolls">Spring Rolls</a></li>
-                <li class="nav-item"><a href="#" data-model-id="garlic-bread">Garlic Bread</a></li>
-                <li class="nav-item"><a href="#" data-model-id="calamari">Calamari</a></li>
-            </ul>
-        </nav>
 
-        <nav id="menu-desserts-drilldown" class="sidebar-nav drilldown-menu" style="display: none;">
-            <div class="drill-header">
-                <a href="#" class="nav-back-button" data-drilldown-back>← Back to Menu</a>
-            </div>
-            <ul>
-                <li class="nav-item"><a href="#" data-model-id="tiramisu">Tiramisu</a></li>
-                <li class="nav-item"><a href="#" data-model-id="cheesecake">Cheesecake</a></li>
-            </ul>
-        </nav>
         
         <footer class="sidebar-footer">
             <p>&copy; 2025 Pearse Flanagan</p>
@@ -94,43 +67,91 @@
         <h3 class="content-title">Dashboard Overview</h3>
 
         <div class="viewer-window">
-            <a-scene embedded
-                     renderer="antialias: true;
-                               colorManagement: true;
-                               sortTransparentObjects: true"
-                     fog="type: linear; color: white; near: 1; far: 1000">
-    
-              <a-assets>
-                <img id="courtain" src="https://media.istockphoto.com/id/174898663/photo/stage-curtain-red-velvet.jpg?s=612x612&w=0&k=20&c=L7hGSJAvEDXUXCbJOGEIxnJQnTxhWkmNqkrayIkAn5A=" />
-                <img id="wood" src="https://media.istockphoto.com/id/1423614623/photo/bamboo-wood-texture-background.jpg?s=612x612&w=0&k=20&c=eOGzTIhcgyI8JO2B6-2Go8kCzcin59hjK6eZtiz6uDo=" />
-                <img id="concrete" src="https://images.photowall.com/products/62937/solid-concrete-wall.jpg?h=699&q=85" />
-    
-                <a-asset-item id="pizza-model" src="./public/pizza.glb"></a-asset-item> 
-                <a-assets-item id="light_bulb" src="./public/light_bulb.glb"></a-assets-item>
-              </a-assets>
-    
-              <a-entity id="Environment">
-                <a-plane position="0 2.2 -2.2" rotation="0 0 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-                <a-plane position="0 2.2 2.2" rotation="0 180 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-                <a-plane position="-2.2 2.2 0" rotation="0 90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-                <a-plane position="2.2 2.2 0" rotation="0 -90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-                <a-plane position="0 3.2 0" rotation="90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
-                <a-plane position="0 0 0" rotation="-90 0 0" width="5" height="5" material="src: #wood; side: double"></a-plane>
-                <a-entity id="LightBulb" position="0 3 0" rotation="180 0 0" gltf-model="#light_bulb" scale="0.5 0.5 0.5">
-                    <a-light id="Light" type="point" color="#ffffff" intensity="8" castShadow="true" position="0 3 0"></a-light>
+                <a-scene renderer="antialias: true;
+                                    colorManagement: true
+                                    sortTransparentObjects: true"
+                        fog="type: linear; color: white; near: 1; far: 1000"
+                        >
+
+                    <a-assets>
+
+                    <img id="courtain" src="https://media.istockphoto.com/id/174898663/photo/stage-curtain-red-velvet.jpg?s=612x612&w=0&k=20&c=L7hGSJAvEDXUXCbJOGEIxnJQnTxhWkmNqkrayIkAn5A=" />
+                    <img id="wood" src="https://media.istockphoto.com/id/1423614623/photo/bamboo-wood-texture-background.jpg?s=612x612&w=0&k=20&c=eOGzTIhcgyI8JO2B6-2Go8kCzcin59hjK6eZtiz6uDo=" />
+                    <img id="concrete" src="https://images.photowall.com/products/62937/solid-concrete-wall.jpg?h=699&q=85" />
+
+                    <a-asset-item id="dish-model" src="./public/pizza.glb"></a-asset-item>
+                    <a-assets-item id="light_bulb" src="./public/light_bulb.glb"></a-assets-item>
+
+                    </a-assets>
+
+
+                <a-entity id="Environment">
+
+
+                    <!-- Back curtain -->
+                    <a-plane position="0 2.2 -2.2" rotation="0 0 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                    <!-- Front curtain -->
+                    <a-plane position="0 2.2 2.2" rotation="0 180 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                    <!-- Left curtain -->
+                    <a-plane position="-2.2 2.2 0" rotation="0 90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                    <!-- Right curtain -->
+                    <a-plane position="2.2 2.2 0" rotation="0 -90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                    <!-- Top curtain -->
+                    <a-plane position="0 3.2 0" rotation="90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
+                    <!-- Bottom curtain (optional floor) -->
+                    <a-plane position="0 0 0" rotation="-90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
+                
+                    <!-- Light bulb -->
+                    <a-entity id="LightBulb" position="0 3 0" rotation="180 0 0" gltf-model="#light_bulb" scale="0.5 0.5 0.5">
+                            
+                        <a-light id="Light" type="point" color="#ffffff" intensity="8" castShadow="true" position="0 3 0"></a-light>
+
+                    </a-entity>
+
                 </a-entity>
-              </a-entity>
-    
-              <a-entity id="Dish-Viewer" position="0 0.7 0" visible="false">
-                <a-entity id="pizza-dish" gltf-model="#pizza-model" scale="1.5 1.5 1.5"></a-entity>
-              </a-entity>
-            </a-scene>
+
+
+
+
+
+
+                <a-entity id="Display Table">
+
+                <!-- Top plane -->
+                <a-box position="0 0.5 0" rotation="0 0 0" width="3.5" height="0.1" depth="3.5" material="src: #wood"></a-box>
+                <!-- left pole -->
+                <a-box position="-1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                <!-- right pole -->
+                <a-box position="1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                <!-- left support -->
+                <a-box position="-1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                <!-- right support -->
+                <a-box position="1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+
+                </a-entity>
+
+
+                <a-entity id="Dish" position="0 0.7 0">
+                    
+                    <a-entity gltf-model="#pizza" scale="0.5 0.5 0.5"></a-entity>
+                    
+                </a-entity>
+
+
+                
+                
+                
+                </a-scene>
             
             <p id="viewer-placeholder">Click an item on the menu to view the interactive 3D model here.</p>
         </div>
     </main>
     
     <script>
+
+        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHD1DJau3iVDkIdYuLgVdMXFgaDyTondE--XxKCt5dhPMsyWhzP8DQreQ_syFdzi2Emj5GWIknBctj/pub?output=csv';
+
+
         document.addEventListener('DOMContentLoaded', () => {
             const sidebar = document.querySelector('.sidebar');
             const mainMenu = document.getElementById('main-menu');
@@ -210,6 +231,36 @@
             });
 
         });
+
+
+        fetch(url)
+        .then(res => res.text())
+        .then(text => {
+            console.log("✅ CSV fetched!");
+            const rows = text.split('\n').map(r => r.split(','));
+            console.log("✅ Parsed rows:", rows);
+
+            const pizzaList = document.querySelector('#menu-pizza-drilldown ul');
+            pizzaList.innerHTML = '';
+
+            rows.slice(1).forEach(([dish, desc, p32, p40]) => {
+            if (!dish) return;
+            const li = document.createElement('li');
+            li.className = 'nav-item';
+            li.innerHTML = `
+                <a href="#" data-info="${desc}" data-price32="${p32}" data-price40="${p40}">
+                ${dish}
+                </a>`;
+            pizzaList.appendChild(li);
+            });
+
+            console.log("✅ Menu generated from CSV!");
+        })
+        .catch(err => console.error("❌ Error fetching or processing data:", err));
+        (err => console.error("❌ Error fetching or processing data:", err));
+                        
+
+
     </script>
   </body>
 </html>
