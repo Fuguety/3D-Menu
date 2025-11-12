@@ -17,8 +17,6 @@
     <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://unpkg.com/super-hands@^3.0.5/dist/super-hands.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@^4.1.1/dist/aframe-event-set-component.min.js"></script>
-W
-
 
   </head>
   <body>
@@ -71,11 +69,11 @@ W
         <h3 class="content-title">Dashboard Overview</h3>
 
         <div class="viewer-window">
-                <a-scene renderer="antialias: true;
-                                    colorManagement: true
-                                    sortTransparentObjects: true"
-                        fog="type: linear; color: white; near: 1; far: 1000"
-                        >
+            <a-scene embedded
+                    renderer="antialias: true;
+                        colorManagement: true;
+                        sortTransparentObjects: true"
+                    fog="type: linear; color: white; near: 1; far: 1000">
 
                     <a-assets>
 
