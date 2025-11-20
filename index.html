@@ -19,6 +19,7 @@
     <script src="https://unpkg.com/aframe-event-set-component@^4.1.1/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-orbit-controls-component@1.3.0/dist/aframe-orbit-controls-component.min.js"></script>
 
+    
 
     <script src="public/dish-rotation.js"></script>
 
@@ -78,7 +79,8 @@
                     renderer="antialias: true;
                         colorManagement: true;
                         sortTransparentObjects: true"
-                    fog="type: linear; color: white; near: 1; far: 1000">
+                    fog="type: linear; color: white; near: 1; far: 1000"                    
+                    >
 
                 <a-assets>
 
@@ -92,10 +94,17 @@
 
 
 
+
                 <button id="toggleViewBtn"
                     style="position: relative; top: 10px; left: 10px; z-index: 999;">
                     Enable Camera Look
                 </button>
+
+                <button onclick="location.href='table-ar.html?model='" id="displayTable"
+                    style="position: relative; top: 10px; left: 10px; z-index: 999;">
+                Show on Table (AR)
+                </button>
+
 
 
                 <!-- Camera -->
@@ -114,11 +123,6 @@
                     rotation="-75 0 0"
                     cursor="rayOrigin: mouse">
                 </a-entity>
-
-
-
-
-
 
 
                 <a-entity id="Environment">
@@ -145,25 +149,21 @@
 
                     </a-entity>
 
-                </a-entity>
+                    <a-entity id="Display Table">
 
+                        <!-- Top plane -->
+                        <a-box position="0 0.5 0" rotation="0 0 0" width="3.5" height="0.1" depth="3.5" material="src: #wood"></a-box>
+                        <!-- left pole -->
+                        <a-box position="-1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                        <!-- right pole -->
+                        <a-box position="1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                        <!-- left support -->
+                        <a-box position="-1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                        <!-- right support -->
+                        <a-box position="1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
 
+                    </a-entity>
 
-
-
-
-                <a-entity id="Display Table">
-
-                    <!-- Top plane -->
-                    <a-box position="0 0.5 0" rotation="0 0 0" width="3.5" height="0.1" depth="3.5" material="src: #wood"></a-box>
-                    <!-- left pole -->
-                    <a-box position="-1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-                    <!-- right pole -->
-                    <a-box position="1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-                    <!-- left support -->
-                    <a-box position="-1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-                    <!-- right support -->
-                    <a-box position="1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
 
                 </a-entity>
 

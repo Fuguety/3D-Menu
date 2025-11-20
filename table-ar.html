@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AR Dish Viewer</title>
+
+  <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+  <style>
+    body { margin: 0; overflow: hidden; }
+    #backBtn {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 9999;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- AR Scene -->
+<a-scene
+  mindar-image="imageTargetSrc: ./public/targets.mind;"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false"
+  embedded
+>
+
+  <a-camera look-controls="enabled: false"></a-camera>
+
+  <!-- Marker -->
+  <a-entity mindar-image-target="targetIndex: 0">
+
+    <!-- Dish goes here -->
+    <a-entity id="dish" scale="0.5 0.5 0.5" position="0 0 0"></a-entity>
+
+  </a-entity>
+
+  
+</a-scene>
+
+<!-- Back button -->
+<button id="backBtn" onclick="history.back()">Back</button>
+
+<script>
+  // Load model from URL ?model=
+  const params = new URLSearchParams(location.search);
+  const modelURL = params.get("model");
+
+  if (modelURL) {
+    document.querySelector("#dish").setAttribute("gltf-model", modelURL);
+  }
+</script>
+
+</body>
+</html>
