@@ -22,8 +22,27 @@
     
 
     <script src="public/dish-rotation.js"></script>
+    <script src="public/chat-script.js"></script>
 
   </head>
+
+    <!-- Floating AI Chat Button -->
+    <div id="chat-toggle" class="chat-toggle">💬</div>
+
+    <!-- Hidden Chat Popup -->
+    <div id="chat-popup" class="chat-popup">
+    <div class="chat-header">
+        <span>AI Assistant</span>
+        <button id="chat-close">×</button>
+    </div>
+    <div id="chat-box" class="chat-box"></div>
+    <form id="chat-form">
+        <input id="chat-input" type="text" placeholder="What are you in the mood for?" />
+        <button type="submit">Send</button>
+    </form>
+    </div>
+
+
   <body>
         
     
@@ -71,6 +90,11 @@
         </footer>
     </aside>
     
+
+
+
+
+
     <main class="content">
         <h3 class="content-title">Dashboard Overview</h3>
 
