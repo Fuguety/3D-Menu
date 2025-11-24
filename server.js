@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+const apiKey = process.env.GEMINI_API_KEY; // replace with your real key from https://aistudio.google.com/app/apikey
 
 
 import express from "express";
@@ -10,13 +14,13 @@ app.use(express.json());
 
 app.post("/api/gemini", async (req, res) =>
 {
-  const apiKey = "YOUR_API_KEY_HERE"; // replace with your real key from https://aistudio.google.com/app/apikey
+  //!const apiKey = "YOUR_API_KEY"; 
   const { prompt } = req.body;
 
   try
   {
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         contents: [
           {
