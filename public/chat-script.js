@@ -2,7 +2,7 @@
 
 async function fetchGeminiResponse(userMessage)
 {
-  const prompt = `You are a friendly restaurant assistant fro the restaurant Miro's Pizzeria.
+  const prompt = `You are a friendly restaurant assistant from the restaurant Miro's Pizzeria.
   Here is some information about the restaurant:
   Opening Hours:  Sunday to Thursday 10:00 am to 22:00, Friday and Saturday 10:00 am to 23:00.
   Birkenmatt 25, 6343 Risch-Rotkreuz, Switzerland
