@@ -1,7 +1,46 @@
 // public/ai-script.js
 
+const MENU_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHD1DJau3iVDkIdYuLgVdMXFgaDyTondE--XxKCt5dhPMsyWhzP8DQreQ_syFdzi2Emj5GWIknBctj/pub?gid=1557089817&single=true&output=csv";
+let MENU_CACHE = null;
+
+async function loadMenuFromSheet() {
+  if (MENU_CACHE) return MENU_CACHE; // simple cache
+
+  const res = await fetch(MENU_CSV_URL);
+  const csvText = await res.text();
+
+  const parsed = Papa.parse(csvText, {
+    header: true,          // use first row as header
+    skipEmptyLines: true,
+  });
+
+  const rows = parsed.data;
+
+  // Expecting columns: Category, Item, Description, Price
+  const menuItems = rows.map(row => ({
+    category: row.Category?.trim(),
+    name: row.Item?.trim(),
+    description: (row.Description || "").trim(),
+    price: (row.Price || "").trim(),
+  }));
+
+  MENU_CACHE = menuItems;
+  return menuItems;
+}
+
+// Turn menu into text for the prompt
+function menuToPromptText(items) {
+  return items
+    .map(
+      item =>
+        `${item.category}: ${item.name} - ${item.description} (${item.price} CHF)`
+    )
+    .join("\n");
+}
 async function fetchGeminiResponse(userMessage)
 {
+  const menuItems = await loadMenuFromSheet();
+  const menuText = menuToPromptText(menuItems);
   const prompt = `You are a friendly restaurant assistant from the restaurant Miro's Pizzeria.
   Here is some information about the restaurant:
   Opening Hours:  Sunday to Thursday 10:00 am to 22:00, Friday and Saturday 10:00 am to 23:00.
@@ -10,8 +49,10 @@ async function fetchGeminiResponse(userMessage)
   Cuisine: Kebab Pizza
   Dishes: Pizza, Pasta, Salads, Kebaps, Burgers, Pide, Snacks, and Desserts.
   To drink: Soft Drinks, Wine, Cold drinks, and Warm drinks.
+  ALL PRICES ARE IN SWISS FRANCS (CHF).
 
-
+Here is the full menu (from Google Sheets):
+${menuText}
 
   The customer said: "${userMessage}".
   Your job is to analyze the customer's message and act according to it. 
