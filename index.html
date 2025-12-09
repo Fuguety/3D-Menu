@@ -71,7 +71,7 @@
                             <a href="#" data-drilldown-target="menu-drilldown">Main Course</a>
                         </li>
 
-                        <li class="nav-item"><a href="#drinks">Drinks and Wine</a></li>
+                        <li class="nav-item"><a href="drinks.html">Drinks and Wine</a></li>
                         
                     </ul>
                 </li>
@@ -334,38 +334,72 @@
                 const link = event.target.closest('a');
                 if (!link) return;
 
+                const href = link.getAttribute('href');
+
+                // --- 1. EXTERNAL NAVIGATION (Drinks, etc.) ---
+                // If it points to an HTML file, let the browser handle it.
+                if (href && (href.includes('.html') || href === '/')) {
+                    return; 
+                }
+
+                // --- 2. INTERNAL NAVIGATION (Stop Browser Default) ---
                 event.preventDefault(); 
-                
-                // 1. Drilldown Trigger (Pizza/Appetizers click)
+
+                // --- 3. SUBMENU TOGGLE ---
+                const parentSubmenu = link.closest('.nav-item.has-submenu');
+                if (parentSubmenu && link === parentSubmenu.querySelector('a')) {
+                    parentSubmenu.classList.toggle('submenu-open');
+                    
+                    // Close other submenus
+                    document.querySelectorAll('.has-submenu.submenu-open').forEach(openLi => {
+                        if (openLi !== parentSubmenu) {
+                            openLi.classList.remove('submenu-open');
+                        }
+                    });
+                    
+                    // REMOVED THE 'return' HERE so the code continues down 
+                    // to update the Title/View below (Step 7)
+                }
+
+                // --- 4. DRILLDOWN TRIGGER (Main Course -> List) ---
                 const targetId = link.getAttribute('data-drilldown-target');
                 if (targetId) 
                 {
-                    // Title for the new drilldown view
                     const title = `Menu: ${link.textContent.trim()} Items`;
                     showDrilldown(targetId, title);
+                    if (window.innerWidth <= 900) closeSidebar();
                     return;
                 }
                 
-                // 2. Back Button Trigger
+                // --- 5. BACK BUTTON ---
                 if (link.hasAttribute('data-drilldown-back')) 
                 {
                     goBack();
                     return;
                 }
                 
-                // 3. Model/Content Load Trigger (Items inside the drilldown)
+                // --- 6. MODEL LOADING (Pizza, etc.) ---
                 const modelId = link.getAttribute('data-model-url');
                 if (modelId)
                 {
                     loadModel(modelId, link.textContent.trim());
+                    if (window.innerWidth <= 900) closeSidebar();
                     return;
                 }
                 
-                // 4. Other Main Links (Dashboard, Upload, Contact)
+                // --- 7. GENERAL VIEW UPDATES (Dashboard, Our Menu, Contact) ---
+                // If we reached this point, it's a main link like Dashboard or Contact.
+                // We update the title and reset the view.
                 if (link.closest('.sidebar-nav') === mainMenu) 
                 {
                     contentTitle.textContent = `${link.textContent.trim()} View`;
                     placeholder.style.display = 'block';
+
+                    // Optional: Clear the current 3D model when clicking Dashboard/Menu
+                    const dishEntity = document.getElementById('Dish');
+                    while (dishEntity.firstChild) dishEntity.removeChild(dishEntity.firstChild);
+                    
+                    if (window.innerWidth <= 900) closeSidebar();
                 }
             });
 

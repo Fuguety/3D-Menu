@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drinks Menu | 3D Menu</title>
+    
+    <link rel="stylesheet" href="styles.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  </head>
+  
+  <body>
+    <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
+    <div class="sidebar-overlay"></div> 
+    
+    <aside class="sidebar"> 
+        <header class="sidebar-header">
+            <a href="index.html" class="site-logo">
+                <span class="logo-main">3D Menu</span>
+                <span class="logo-sub">3D Menu Showcase</span>
+            </a>
+        </header>
+
+        <nav id="main-menu" class="sidebar-nav">
+            <ul>
+                <li class="nav-item"><a href="index.html">Dashboard</a></li>
+                <li class="nav-item has-submenu">
+                    <a href="index.html#food-items">Our Menu</a>
+                    <ul class="submenu">
+                        <li class="nav-item"><a href="index.html">Main Course</a></li>
+                        <li class="nav-item"><a href="drinks.html" style="color: #fff;">Drinks and Wine</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#">Upload Model</a></li>
+                <li class="nav-item"><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+        
+        <footer class="sidebar-footer">
+            <p>&copy; 2025 Pearse Flanagan</p>
+        </footer>
+    </aside>
+    
+    <main class="content">
+        <h3 class="content-title">Drinks & Wine List</h3>
+
+        <div class="menu-container">
+            
+            <h2 class="menu-section-title">Signature Cocktails</h2>
+            
+            <div class="drink-item">
+                <div class="drink-info">
+                    <h4>The Golden Old Fashioned</h4>
+                    <p>Bourbon, smoked maple syrup, angostura bitters, gold leaf.</p>
+                </div>
+                <div class="drink-price">$16</div>
+            </div>
+
+            <div class="drink-item">
+                <div class="drink-info">
+                    <h4>Espresso Martini</h4>
+                    <p>Vodka, Kahlúa, fresh espresso, coffee beans.</p>
+                </div>
+                <div class="drink-price">$14</div>
+            </div>
+
+            <div class="drink-item">
+                <div class="drink-info">
+                    <h4>Spicy Margarita</h4>
+                    <p>Tequila Blanco, jalapeño infusion, lime, agave, tajin rim.</p>
+                </div>
+                <div class="drink-price">$15</div>
+            </div>
+
+            <h2 class="menu-section-title">Red Wines</h2>
+
+            <div class="drink-item">
+                <div class="drink-info">
+                    <h4>Cabernet Sauvignon, Napa Valley</h4>
+                    <p>Bold, dark fruit, notes of vanilla and oak.</p>
+                </div>
+                <div class="drink-price">$18 / $65</div>
+            </div>
+
+            <div class="drink-item">
+                <div class="drink-info">
+                    <h4>Pinot Noir, Oregon</h4>
+                    <p>Light body, cherry, earth, smooth finish.</p>
+                </div>
+                <div class="drink-price">$14 / $50</div>
+            </div>
+
+            <h2 class="menu-section-title">White Wines</h2>
+
+            <div class="drink-item">
+                <div class="drink-info">
+                    <h4>Chardonnay, France</h4>
+                    <p>Crisp, mineral, green apple notes.</p>
+                </div>
+                <div class="drink-price">$12 / $45</div>
+            </div>
+
+             <h2 class="menu-section-title">Soft Drinks</h2>
+
+             <div class="drink-item">
+                 <div class="drink-info">
+                     <h4>House Lemonade</h4>
+                     <p>Freshly squeezed lemons, mint, sparkling water.</p>
+                 </div>
+                 <div class="drink-price">$6</div>
+             </div>
+
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.querySelector('.mobile-nav-toggle');
+            const overlay = document.querySelector('.sidebar-overlay');
+            const body = document.body;
+
+            function closeSidebar() {
+                body.classList.remove('sidebar-open');
+                toggleBtn.setAttribute('aria-expanded', 'false');
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                const isOpening = !body.classList.contains('sidebar-open');
+                body.classList.toggle('sidebar-open');
+                toggleBtn.setAttribute('aria-expanded', isOpening);
+            });
+
+            overlay.addEventListener('click', closeSidebar);
+            
+            // Allow submenus to expand on mobile
+            const submenuParents = document.querySelectorAll('.has-submenu > a');
+            submenuParents.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if(window.innerWidth <= 900) {
+                        e.preventDefault();
+                        const parent = link.parentElement;
+                        parent.classList.toggle('submenu-open');
+                    }
+                });
+            });
+        });
+    </script>
+  </body>
+</html>
