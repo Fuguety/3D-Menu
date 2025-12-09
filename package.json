@@ -12,7 +12,7 @@
   "devDependencies": {
     "@vitejs/plugin-basic-ssl": "^2.1.0",
     "typescript": "~5.9.3",
-    "vite": "^7.1.7"
+    "vite": "^7.2.6"
   },
   "dependencies": {
     "axios": "^1.13.2",
