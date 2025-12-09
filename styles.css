@@ -538,5 +538,56 @@ body {
   background-color: #e6c972;
 }
 
+/* Chat messages area */
+#chat-box {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 12px;
+  white-space: pre-line; 
+  line-height: 1.5;      
+  font-size: 0.95em;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) #3a2b20;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;  
+}
+
+/* Optional: differentiate AI and user messages */
+.message.ai {
+  background: #2e2b2b;
+  color: var(--text-light);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 6px 0;
+
+
+  display: inline-block;
+  max-width: 85%;          /* ✅ narrower so text is readable */
+  word-wrap: break-word;
+
+}
+
+.message.user {
+  background: var(--accent-color);
+  color: var(--text-dark);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 6px 0;
+  text-align: right;
+
+  display: inline-block;
+  max-width: 75%;
+  align-self: flex-end;
+
+}
+
+/* Optional: make lists look cleaner */
+.message.ai::marker,
+.message.user::marker {
+  color: var(--accent-color);
+}
 
 

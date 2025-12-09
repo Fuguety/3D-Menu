@@ -1,6 +1,52 @@
 
+let chatHistory = [];
+const MENU_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHD1DJau3iVDkIdYuLgVdMXFgaDyTondE--XxKCt5dhPMsyWhzP8DQreQ_syFdzi2Emj5GWIknBctj/pub?gid=1557089817&single=true&output=csv";
+let MENU_CACHE = null;
+let MENU_PROMISE = null;
+
+function loadMenu()
+ {
+    if (MENU_CACHE) return Promise.resolve(MENU_CACHE);
+    if (MENU_PROMISE) return MENU_PROMISE;
+
+    MENU_PROMISE = fetch(MENU_CSV_URL)
+      .then(response => response.text())
+      .then(csvText => {
+        const parsed = Papa.parse(csvText, 
+          {
+
+            header: true,
+            skipEmptyLines: true,
+            transformHeader: header => header.trim().replace(/\s|-/g, "_"),
+            transform: value => value.trim()
+
+          });
+
+        MENU_CACHE = parsed.data;
+        console.log("Menu data loaded:", MENU_CACHE);
+        return MENU_CACHE;
+      })
+
+      .catch(error => 
+        {
+          
+          console.error("Error fetching menu data:", error);
+          MENU_CACHE = [];
+          return MENU_CACHE;
+          
+        });
+
+    return MENU_PROMISE;
+}
+
+loadMenu();
+
+
 async function fetchGeminiResponse(userMessage)
 {
+  await loadMenu();
+  const menuText = JSON.stringify(MENU_CACHE, null, 2);
+
 
   const prompt = `You are a friendly restaurant assistant from the restaurant Miro's Pizzeria.
   Here is some information about the restaurant:
@@ -12,7 +58,8 @@ async function fetchGeminiResponse(userMessage)
   To drink: Soft Drinks, Wine, Cold drinks, and Warm drinks.
   ALL PRICES ARE IN SWISS FRANCS (CHF).
 
-
+  Here is the full menu (from Google Sheets):
+  ${menuText}
 
   The customer said: "${userMessage}".
   Your job is to analyze the customer's message and act according to it. 
@@ -30,6 +77,16 @@ async function fetchGeminiResponse(userMessage)
   Do not accept requests for jokes, stories, or any non-restaurant-related content.
   Do not accept requests for coding, programming, or technical support.
   Do not accept requests for medical, legal, or financial advice.
+  Limit the information you provide to only what is relevant to the restaurant and its menu.
+  Limit your responses to a maximum of 150 words.
+  Limit menu item suggestions to a maximum of 5 items per response, and ask if they want to see more.
+  Format your menu responses clearly using bullet points or line breaks, for example:
+    - Kebab im Fladenbrot — CHF 15.00  
+    - Kebab Box — CHF 15.00  
+    - Vegi Kebab Käse — CHF 15.00  
+
+Avoid markdown symbols like ** or * for bold text. Use plain, human-readable formatting.
+
 
   Keep your responses concise and relevant to the customer's inquiry so long it complies with the previous guidlines.
   If a request violates any of the above guidelines, respond with "I'm here to help with restaurant recommendations and information. Could you please clarify your request?".`;
@@ -64,23 +121,39 @@ document.addEventListener('DOMContentLoaded', () =>
   const chatInput = document.getElementById('chat-input');
   const chatBox = document.getElementById('chat-box');
 
-  if (!chatForm) return;
+  if (!chatForm) 
+  {
+    return;
+  }
+
+  // helper function to add messages to the chat
+  function addMessage(sender, text)
+  {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', sender);
+    messageDiv.textContent = text; // or .innerHTML if you want to allow <br>
+    chatBox.appendChild(messageDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
 
   chatForm.addEventListener('submit', async (e) =>
   {
     e.preventDefault();
     const userMessage = chatInput.value.trim();
-    if (!userMessage) return;
+    if (!userMessage) 
+    {
+      return;
+    }
 
-    chatBox.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
-    chatInput.value = "";
+    // user message
+    addMessage('user', userMessage);
+    chatInput.value = '';
 
+    // AI reply
     const aiReply = await fetchGeminiResponse(userMessage);
-    chatBox.innerHTML += `<p><strong>AI:</strong> ${aiReply}</p>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
+    addMessage('ai', aiReply);
   });
 });
-
 
 
 // floating chat popup toggle
@@ -90,7 +163,10 @@ document.addEventListener('DOMContentLoaded', () =>
   const popup = document.getElementById('chat-popup');
   const closeBtn = document.getElementById('chat-close');
 
-  if (!toggle || !popup) return;
+  if (!toggle || !popup) 
+  {
+    return;
+  }
 
   toggle.addEventListener('click', () =>
   {
@@ -103,4 +179,5 @@ document.addEventListener('DOMContentLoaded', () =>
     popup.style.display = 'none';
   });
 });
+
 
