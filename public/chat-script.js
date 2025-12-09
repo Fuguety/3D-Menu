@@ -167,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () =>
   {
     return;
   }
+  popup.style.display = 'none';
 
   toggle.addEventListener('click', () =>
   {
@@ -179,5 +180,24 @@ document.addEventListener('DOMContentLoaded', () =>
     popup.style.display = 'none';
   });
 });
+
+
+// expand / resize chat popup
+document.addEventListener('DOMContentLoaded', () =>
+{
+  const expandBtn = document.getElementById('chat-expand');
+  const popup = document.getElementById('chat-popup');
+
+  if (!expandBtn || !popup)
+  {
+    return;
+  }
+
+  expandBtn.addEventListener('click', () =>
+  {
+    popup.classList.toggle('expanded');
+  });
+});
+
 
 
