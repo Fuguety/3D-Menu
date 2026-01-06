@@ -803,7 +803,6 @@ body {
 }
 
 .drink-price {
-    font-family: 'Playfair Display', serif;
     font-size: 1.2rem;
     color: var(--accent-color);
     font-weight: 700;

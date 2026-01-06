@@ -7,8 +7,32 @@
     
     <link rel="stylesheet" href="styles.css"> 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <script src="public/chat-script.js"></script>
+
+
   </head>
   
+    <!-- Floating AI Chat Button -->
+    <div id="chat-toggle" class="chat-toggle">💬</div>
+
+    <!-- Hidden Chat Popup -->
+    <div id="chat-popup" class="chat-popup">
+    <div class="chat-header">
+        <span>AI Assistant</span>
+        <div class="chat-controls">
+            <button id="chat-expand" title="Rezise">⤢</button>
+            <button id="chat-close">×</button>
+        </div>
+    </div>
+    <div id="chat-box" class="chat-box"></div>
+    <form id="chat-form">
+        <input id="chat-input" type="text" placeholder="What are you in the mood for?" />
+        <button type="submit">Send</button>
+    </form>
+    </div>
+
+
   <body>
     <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -46,76 +70,78 @@
     <main class="content">
         <h3 class="content-title">Drinks & Wine List</h3>
 
-        <div class="menu-container">
+        <div class="menu-container" id="menu-drilldown">
+            <ul>
+                <!-- Menu items will be populated here from CSV -->
+            </ul>
             
-            <h2 class="menu-section-title">Signature Cocktails</h2>
-            
-            <div class="drink-item">
-                <div class="drink-info">
-                    <h4>The Golden Old Fashioned</h4>
-                    <p>Bourbon, smoked maple syrup, angostura bitters, gold leaf.</p>
-                </div>
-                <div class="drink-price">$16</div>
-            </div>
 
-            <div class="drink-item">
-                <div class="drink-info">
-                    <h4>Espresso Martini</h4>
-                    <p>Vodka, Kahlúa, fresh espresso, coffee beans.</p>
-                </div>
-                <div class="drink-price">$14</div>
-            </div>
-
-            <div class="drink-item">
-                <div class="drink-info">
-                    <h4>Spicy Margarita</h4>
-                    <p>Tequila Blanco, jalapeño infusion, lime, agave, tajin rim.</p>
-                </div>
-                <div class="drink-price">$15</div>
-            </div>
-
-            <h2 class="menu-section-title">Red Wines</h2>
-
-            <div class="drink-item">
-                <div class="drink-info">
-                    <h4>Cabernet Sauvignon, Napa Valley</h4>
-                    <p>Bold, dark fruit, notes of vanilla and oak.</p>
-                </div>
-                <div class="drink-price">$18 / $65</div>
-            </div>
-
-            <div class="drink-item">
-                <div class="drink-info">
-                    <h4>Pinot Noir, Oregon</h4>
-                    <p>Light body, cherry, earth, smooth finish.</p>
-                </div>
-                <div class="drink-price">$14 / $50</div>
-            </div>
-
-            <h2 class="menu-section-title">White Wines</h2>
-
-            <div class="drink-item">
-                <div class="drink-info">
-                    <h4>Chardonnay, France</h4>
-                    <p>Crisp, mineral, green apple notes.</p>
-                </div>
-                <div class="drink-price">$12 / $45</div>
-            </div>
-
-             <h2 class="menu-section-title">Soft Drinks</h2>
-
-             <div class="drink-item">
-                 <div class="drink-info">
-                     <h4>House Lemonade</h4>
-                     <p>Freshly squeezed lemons, mint, sparkling water.</p>
-                 </div>
-                 <div class="drink-price">$6</div>
-             </div>
 
         </div>
     </main>
     
     <script>
+
+        // CSV link
+        const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHD1DJau3iVDkIdYuLgVdMXFgaDyTondE--XxKCt5dhPMsyWhzP8DQreQ_syFdzi2Emj5GWIknBctj/pub?gid=1169403815&single=true&output=csv";
+
+        fetch(url)
+        .then(res => res.text())
+        .then(text => {
+            const rows = text.trim().split('\n').map(r => r.split(','));
+            const container = document.querySelector('.menu-container');
+            container.innerHTML = '';
+
+            // headings
+
+            // Alcoholic Drinks
+            const alcTitle = document.createElement('h2');
+            alcTitle.textContent = 'Alcoholic';
+            alcTitle.classList.add('content-title');
+            container.appendChild(alcTitle);
+
+            rows.slice(1).forEach(([type, name, desc, price]) => {
+            if (type !== 'Alcoholic') return;
+
+            const item = document.createElement('div');
+            item.className = 'drink-item';
+            item.innerHTML = `
+                <div class="drink-info">
+                <h4>${name}</h4>
+                <p>${desc || ''}</p>
+                </div>
+                <div class="drink-price">${price || ''}</div>
+            `;
+            container.appendChild(item);
+            });
+
+            // Non-alcoholic Drinks
+            const nonAlcTitle = document.createElement('h2');
+            nonAlcTitle.textContent = 'Non-alcoholic';
+            nonAlcTitle.classList.add('content-title');
+            container.appendChild(nonAlcTitle);
+
+            rows.slice(1).forEach(([type, name, desc, price]) => {
+            if (type !== 'Non-alcoholic') return;
+
+            const item = document.createElement('div');
+            item.className = 'drink-item';
+            item.innerHTML = `
+                <div class="drink-info">
+                <h4>${name}</h4>
+                <p>${desc || ''}</p>
+                </div>
+                <div class="drink-price">${price || ''}</div>
+            `;
+            container.appendChild(item);
+            });
+        })
+        .catch(err => console.error(err));
+
+     
+
+
+
         document.addEventListener('DOMContentLoaded', () => {
             const toggleBtn = document.querySelector('.mobile-nav-toggle');
             const overlay = document.querySelector('.sidebar-overlay');

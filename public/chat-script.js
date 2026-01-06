@@ -149,9 +149,32 @@ document.addEventListener('DOMContentLoaded', () =>
     addMessage('user', userMessage);
     chatInput.value = '';
 
-    // AI reply
-    const aiReply = await fetchGeminiResponse(userMessage);
-    addMessage('ai', aiReply);
+    // show loading indicator for AI
+    const loadingDiv = document.createElement('div');
+    loadingDiv.classList.add('message', 'ai', 'loading');
+    loadingDiv.textContent = 'Typing...';
+    chatBox.appendChild(loadingDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try
+    {
+      // AI reply
+      const aiReply = await fetchGeminiResponse(userMessage);
+
+      // remove loading indicator
+      loadingDiv.remove();
+
+      // display AI message
+      addMessage('ai', aiReply);
+    }
+    catch (error)
+    {
+      // remove loading indicator on error
+      loadingDiv.remove();
+
+      // fallback message
+      addMessage('ai', 'Sorry, something went wrong.');
+    }
   });
 });
 
