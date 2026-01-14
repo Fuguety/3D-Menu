@@ -119,6 +119,8 @@
                     <img id="concrete" src="https://images.photowall.com/products/62937/solid-concrete-wall.jpg?h=699&q=85" />
 
                     <a-assets-item id="light_bulb" src="./public/models/light_bulb.glb"></a-assets-item>
+                    <a-assets-item id="fork_model" src="./public/models/Fork.glb"></a-assets-item>
+                    <a-assets-item id="knife_model" src="./public/models/Knife.glb"></a-assets-item>
 
                 </a-assets>
 
@@ -180,6 +182,11 @@
                     </a-entity>
 
                     <a-entity id="Display Table">
+
+                        <!-- Fork on top of table -->
+                        <a-entity position="0.5 0.9 0" gltf-model="#fork_model" rotation="0 -90 0" scale="0.09 0.09 0.09"></a-entity>
+                        <!-- Knife on top of table -->
+                        <a-entity position="-0.5 0.9 0" gltf-model="#knife_model" rotation="0 -90 0" scale="0.09 0.09 0.09"></a-entity>
 
                         <!-- Top plane -->
                         <a-box position="0 0.5 0" rotation="0 0 0" width="3.5" height="0.1" depth="3.5" material="src: #wood"></a-box>
