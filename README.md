@@ -1,4 +1,4 @@
-cat << 'EOF' > README.md
+
 # 3D Menu (A-Frame + Vite) + Gemini Chat API
 
 An interactive 3D/VR menu built with **A-Frame** and **Vite**, with an **Express** backend that securely proxies requests to the **Google Gemini API**.
