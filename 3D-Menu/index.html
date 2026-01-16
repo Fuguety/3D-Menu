@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en">
   <head>
-
-
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3d-menu</title>
+    <title>3D Menu VR Dashboard</title>
 
+    <link rel="stylesheet" href="styles.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
@@ -17,98 +17,441 @@
     <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://unpkg.com/super-hands@^3.0.5/dist/super-hands.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@^4.1.1/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-orbit-controls-component@1.3.0/dist/aframe-orbit-controls-component.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 
+    
 
+    <script src="public/dish-rotation.js"></script>
+    <script src="public/chat-script.js"></script>
 
   </head>
+
+    <!-- Floating AI Chat Button -->
+    <div id="chat-toggle" class="chat-toggle">💬</div>
+
+    <!-- Hidden Chat Popup -->
+    <div id="chat-popup" class="chat-popup">
+    <div class="chat-header">
+        <span>AI Assistant</span>
+        <div class="chat-controls">
+            <button id="chat-expand" title="Rezise">⤢</button>
+            <button id="chat-close">×</button>
+        </div>
+    </div>
+    <div id="chat-box" class="chat-box"></div>
+    <form id="chat-form">
+        <input id="chat-input" type="text" placeholder="What are you in the mood for?" />
+        <button type="submit">Send</button>
+    </form>
+    </div>
+
+
   <body>
+        
     
-      <a-scene renderer="antialias: true;
-                        colorManagement: true
+    <aside class="sidebar"> 
+        <header class="sidebar-header">
+            <a href="/" class="site-logo">
+                <span class="logo-main">3D Menu</span>
+                <span class="logo-sub">3D Menu Showcase</span>
+            </a>
+        </header>
+
+        <nav id="main-menu" class="sidebar-nav current-menu">
+            <ul>
+                <li class="nav-item"><a href="#dashboard" data-info="Overview of your models">Dashboard</a></li>
+                <li class="nav-item has-submenu">
+                    <a href="#food-items" data-info="Browse all our interactive menu items">Our Menu</a>
+                    
+                    <ul class="submenu">
+                        <li class="nav-item"> 
+                            <a href="#" data-drilldown-target="menu-drilldown">Main Course</a>
+                        </li>
+
+                        <li class="nav-item"><a href="drinks.html">Drinks and Wine</a></li>
+                        
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#upload-model" data-info="Add new 3D food models">Upload Model</a></li>
+                <li class="nav-item"><a href="#settings" data-info="Need help?">Contact Us</a></li>
+            </ul>
+        </nav>
+        
+        <nav id="menu-drilldown" class="sidebar-nav drilldown-menu" style="display:none;">
+            <div class="drill-header">
+            <a href="#" class="nav-back-button" data-drilldown-back>← Back to Menu</a>
+            </div>
+
+            <ul></ul> <!-- Code will populate this -->
+
+        </nav>
+
+
+        
+        <footer class="sidebar-footer">
+            <p>&copy; 2025 Pearse Flanagan</p>
+        </footer>
+    </aside>
+    
+
+
+
+
+
+    <main class="content">
+        <h3 class="content-title">Dashboard Overview</h3>
+
+        <div class="viewer-window">
+            <a-scene embedded
+                    renderer="antialias: true;
+                        colorManagement: true;
                         sortTransparentObjects: true"
-              fog="type: linear; color: white; near: 1; far: 1000"
-              >
+                    fog="type: linear; color: white; near: 1; far: 1000"                    
+                    >
 
-        <a-assets>
+                <a-assets>
 
-          <img id="courtain" src="https://media.istockphoto.com/id/174898663/photo/stage-curtain-red-velvet.jpg?s=612x612&w=0&k=20&c=L7hGSJAvEDXUXCbJOGEIxnJQnTxhWkmNqkrayIkAn5A=" />
-          <img id="wood" src="https://media.istockphoto.com/id/1423614623/photo/bamboo-wood-texture-background.jpg?s=612x612&w=0&k=20&c=eOGzTIhcgyI8JO2B6-2Go8kCzcin59hjK6eZtiz6uDo=" />
-          <img id="concrete" src="https://images.photowall.com/products/62937/solid-concrete-wall.jpg?h=699&q=85" />
+                    <img id="courtain" src="https://media.istockphoto.com/id/174898663/photo/stage-curtain-red-velvet.jpg?s=612x612&w=0&k=20&c=L7hGSJAvEDXUXCbJOGEIxnJQnTxhWkmNqkrayIkAn5A=" />
+                    <img id="wood" src="https://media.istockphoto.com/id/1423614623/photo/bamboo-wood-texture-background.jpg?s=612x612&w=0&k=20&c=eOGzTIhcgyI8JO2B6-2Go8kCzcin59hjK6eZtiz6uDo=" />
+                    <img id="concrete" src="https://images.photowall.com/products/62937/solid-concrete-wall.jpg?h=699&q=85" />
 
-          <a-asset-item id="dish-model" src="./public/pizza.glb"></a-asset-item>
-          <a-asset-item id="test1" src="./public/test1.glb"></a-asset-item>
-          <a-assets-item id="light_bulb" src="./public/light_bulb.glb"></a-assets-item>
+                    <a-assets-item id="light_bulb" src="./public/models/light_bulb.glb"></a-assets-item>
+                    <a-assets-item id="fork_model" src="./public/models/Fork.glb"></a-assets-item>
+                    <a-assets-item id="knife_model" src="./public/models/Knife.glb"></a-assets-item>
 
-        </a-assets>
-
-
-    <a-entity id="Environment">
-
-
-      <!-- Back curtain -->
-      <a-plane position="0 2.2 -2.2" rotation="0 0 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-      <!-- Front curtain -->
-      <a-plane position="0 2.2 2.2" rotation="0 180 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-      <!-- Left curtain -->
-      <a-plane position="-2.2 2.2 0" rotation="0 90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-      <!-- Right curtain -->
-      <a-plane position="2.2 2.2 0" rotation="0 -90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-      <!-- Top curtain -->
-      <a-plane position="0 3.2 0" rotation="90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
-      <!-- Bottom curtain (optional floor) -->
-      <a-plane position="0 0 0" rotation="-90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
-
-
-      <!-- Light bulb -->
-      <a-entity id="LightBulb" position="0 3 0" rotation="180 0 0" gltf-model="#light_bulb" scale="0.5 0.5 0.5">
-          <!-- Light -->
-          
-          <!--
-          <a-light id="Light" type="point" color="#ffffff" intensity="8" castShadow="true" position="0 3 0"></a-light>
-          -->
-      
-        </a-entity>
-
-
-    </a-entity>
-
-
-
-    <a-entity id="Display Table">
-
-      <!-- Top plane -->
-      <a-box position="0 0.5 0" rotation="0 0 0" width="3.5" height="0.1" depth="3.5" material="src: #wood"></a-box>
-      <!-- left pole -->
-      <a-box position="-1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-      <!-- right pole -->
-      <a-box position="1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-      <!-- left support -->
-      <a-box position="-1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-      <!-- right support -->
-      <a-box position="1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-
-    </a-entity>
-
-
-    <a-entity id="Dish" position="0 0.7 0">
-
-        
-        <a-entity gltf-model="#test1" scale="0.5 0.5 0.5"></a-entity>
-        
-
-    </a-entity>
-
-
-      
-      
-      
-      </a-scene>
+                </a-assets>
 
 
 
 
+                <button id="toggleViewBtn"
+                    style="position: relative; top: 10px; left: 10px; z-index: 999;">
+                    Enable Camera Look
+                </button>
 
-    <script type="module" src="/src/main.ts"></script>
+                <button onclick="location.href='table-ar.html?model='" id="displayTable"
+                    style="position: relative; top: 10px; left: 10px; z-index: 999;">
+                Show on Table (AR)
+                </button>
+
+
+
+                <!-- Camera -->
+                <a-entity id="MainCamera"
+                    camera
+                    look-controls="enabled: false; pointerLockEnabled: false"
+                    orbit-controls="
+                        enabled: true;
+                        target: 0 0.6 0;
+                        enableDamping: true;
+                        enablePan: false;
+                        minDistance: 0.5;
+                        maxDistance: 1;
+                    "
+                    position="0 1.5 0.25"
+                    rotation="-75 0 0"
+                    cursor="rayOrigin: mouse">
+                </a-entity>
+
+
+                <a-entity id="Environment">
+
+
+                    <!-- Back curtain -->
+                    <a-plane position="0 2.2 -2.2" rotation="0 0 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                    <!-- Front curtain -->
+                    <a-plane position="0 2.2 2.2" rotation="0 180 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                    <!-- Left curtain -->
+                    <a-plane position="-2.2 2.2 0" rotation="0 90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                    <!-- Right curtain -->
+                    <a-plane position="2.2 2.2 0" rotation="0 -90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                    <!-- Top curtain -->
+                    <a-plane position="0 3.2 0" rotation="90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
+                    <!-- Bottom curtain (optional floor) -->
+                    <a-plane position="0 0 0" rotation="-90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
+                
+                    <!-- Light bulb -->
+                    <a-entity id="LightBulb" position="0 3 0" rotation="180 0 0" gltf-model="#light_bulb" scale="0.5 0.5 0.5">
+                            <!--
+                                 <a-light id="Light" type="point" color="#ffffff" intensity="8" castShadow="true" position="0 3 0"></a-light>
+                            -->
+
+                    </a-entity>
+
+                    <a-entity id="Display Table">
+
+                        <!-- Fork on top of table -->
+                        <a-entity position="0.5 0.9 0" gltf-model="#fork_model" rotation="0 -90 0" scale="0.09 0.09 0.09"></a-entity>
+                        <!-- Knife on top of table -->
+                        <a-entity position="-0.5 0.9 0" gltf-model="#knife_model" rotation="0 -90 0" scale="0.09 0.09 0.09"></a-entity>
+
+                        <!-- Top plane -->
+                        <a-box position="0 0.5 0" rotation="0 0 0" width="3.5" height="0.1" depth="3.5" material="src: #wood"></a-box>
+                        <!-- left pole -->
+                        <a-box position="-1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                        <!-- right pole -->
+                        <a-box position="1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                        <!-- left support -->
+                        <a-box position="-1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                        <!-- right support -->
+                        <a-box position="1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+
+                    </a-entity>
+
+
+                </a-entity>
+
+
+                <!-- Dish Model Placeholder -->
+                <a-entity id="Dish" dish-rotation position="0 0.6 0"/>
+                    
+                    
+
+
+                
+                
+                
+                </a-scene>
+            
+            <p id="viewer-placeholder">Click an item on the menu to view the interactive 3D model here.</p>
+        </div>
+    </main>
+    
+    <script>
+
+
+        // CSV URL
+        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHD1DJau3iVDkIdYuLgVdMXFgaDyTondE--XxKCt5dhPMsyWhzP8DQreQ_syFdzi2Emj5GWIknBctj/pub?output=csv';
+
+
+        document.addEventListener('DOMContentLoaded', () => 
+        {
+            const sidebar = document.querySelector('.sidebar');
+            const mainMenu = document.getElementById('main-menu');
+            const placeholder = document.getElementById('viewer-placeholder');
+            const contentTitle = document.querySelector('.content-title');
+
+
+            const cam = document.getElementById('MainCamera');
+            const dish = document.getElementById('Dish');
+            const btn = document.getElementById('toggleViewBtn');
+
+            let currentView = mainMenu;
+            let camLookEnabled = false;
+
+            // Initialize button state
+            function updateMode()
+            {
+
+                        const lookControls = cam.components['look-controls'];
+
+
+                if (camLookEnabled)
+                {
+
+                    if (lookControls)
+                    {
+                        const rot = cam.object3D.rotation;
+                        lookControls.pitchObject.rotation.x = rot.x;
+                        lookControls.yawObject.rotation.y = rot.y;
+                    }
+
+                    cam.setAttribute('look-controls', 'enabled: true',);
+                    cam.removeAttribute('orbit-controls');
+
+                    btn.textContent = 'Disable Camera Look';
+                }
+                
+                else
+                {
+                    cam.setAttribute('look-controls', 'enabled: false');
+                    cam.setAttribute('orbit-controls',
+                        'target: 0 0.6 0; enableDamping: true; enablePan: false; minDistance: 0.5; maxDistance: 1;'
+                    );
+
+
+                    btn.textContent = 'Enable Camera Look';
+                }
+            }
+
+            btn.addEventListener('click', function ()
+            {
+                camLookEnabled = !camLookEnabled;
+                updateMode();
+            });
+
+            function showDrilldown(targetId, title) 
+            {
+                // Hide current view
+                currentView.style.display = 'none';
+
+                // Find and show new drilldown view
+                const newView = document.getElementById(targetId);
+                if (newView) {
+                    newView.style.display = 'block';
+                    currentView = newView; 
+                    contentTitle.textContent = title;
+                }
+            }
+
+            function goBack() 
+            {
+                // Hide current drilldown view
+                currentView.style.display = 'none';
+
+                // Show the main menu (Level 0)
+                mainMenu.style.display = 'block';
+                currentView = mainMenu; 
+                contentTitle.textContent = 'Dashboard Overview';
+            }
+
+            function loadModel(modelURL, linkText) 
+            {
+
+                placeholder.style.display = 'none';
+                const dishEntity = document.getElementById('Dish');
+
+                dishEntity.object3D.rotation.set(0, 0, 0);
+                dishEntity.object3D.position.set(0, 0.6, 0);
+                dishEntity.object3D.scale.set(1, 1, 1);
+
+                // Remove old model
+                while (dishEntity.firstChild) dishEntity.removeChild(dishEntity.firstChild);
+
+                // Create and attach new model
+                const newModel = document.createElement('a-entity');
+                newModel.setAttribute('gltf-model', `url(${modelURL})`);
+                newModel.setAttribute('scale', '0.5 0.5 0.5');
+                dishEntity.appendChild(newModel);
+
+                contentTitle.textContent = `${linkText}`;
+                console.log(`✅ Loaded model: ${modelURL}`);
+                
+            }
+
+
+
+
+            // Listen for ALL link clicks in the sidebar
+            sidebar.addEventListener('click', (event) => 
+            {
+                const link = event.target.closest('a');
+                if (!link) return;
+
+                const href = link.getAttribute('href');
+
+                // --- 1. EXTERNAL NAVIGATION (Drinks, etc.) ---
+                // If it points to an HTML file, let the browser handle it.
+                if (href && (href.includes('.html') || href === '/')) {
+                    return; 
+                }
+
+                // --- 2. INTERNAL NAVIGATION (Stop Browser Default) ---
+                event.preventDefault(); 
+
+                // --- 3. SUBMENU TOGGLE ---
+                const parentSubmenu = link.closest('.nav-item.has-submenu');
+                if (parentSubmenu && link === parentSubmenu.querySelector('a')) {
+                    parentSubmenu.classList.toggle('submenu-open');
+                    
+                    // Close other submenus
+                    document.querySelectorAll('.has-submenu.submenu-open').forEach(openLi => {
+                        if (openLi !== parentSubmenu) {
+                            openLi.classList.remove('submenu-open');
+                        }
+                    });
+                    
+                    // REMOVED THE 'return' HERE so the code continues down 
+                    // to update the Title/View below (Step 7)
+                }
+
+                // --- 4. DRILLDOWN TRIGGER (Main Course -> List) ---
+                const targetId = link.getAttribute('data-drilldown-target');
+                if (targetId) 
+                {
+                    const title = `Menu: ${link.textContent.trim()} Items`;
+                    showDrilldown(targetId, title);
+                    if (window.innerWidth <= 900) closeSidebar();
+                    return;
+                }
+                
+                // --- 5. BACK BUTTON ---
+                if (link.hasAttribute('data-drilldown-back')) 
+                {
+                    goBack();
+                    return;
+                }
+                
+                // --- 6. MODEL LOADING (Pizza, etc.) ---
+                const modelId = link.getAttribute('data-model-url');
+                if (modelId)
+                {
+                    loadModel(modelId, link.textContent.trim());
+                    if (window.innerWidth <= 900) closeSidebar();
+                    return;
+                }
+                
+                // --- 7. GENERAL VIEW UPDATES (Dashboard, Our Menu, Contact) ---
+                // If we reached this point, it's a main link like Dashboard or Contact.
+                // We update the title and reset the view.
+                if (link.closest('.sidebar-nav') === mainMenu) 
+                {
+                    contentTitle.textContent = `${link.textContent.trim()} View`;
+                    placeholder.style.display = 'block';
+
+                    // Optional: Clear the current 3D model when clicking Dashboard/Menu
+                    const dishEntity = document.getElementById('Dish');
+                    while (dishEntity.firstChild) dishEntity.removeChild(dishEntity.firstChild);
+                    
+                    if (window.innerWidth <= 900) closeSidebar();
+                }
+            });
+
+
+            updateMode();
+        });
+
+
+        fetch(url)
+        .then(res => res.text())
+        .then(text => 
+        {
+            console.log("✅ CSV fetched!");
+            const rows = text.split('\n').map(r => r.split(','));
+            console.log("✅ Parsed rows:", rows);
+
+            const pizzaList = document.querySelector('#menu-drilldown ul');
+            pizzaList.innerHTML = '';
+
+            rows.slice(1).forEach(([dish, desc, p32, p40, model]) => 
+            {
+                if (!dish) return;
+
+                const li = document.createElement('li');
+                li.className = 'nav-item';
+
+                li.innerHTML = `
+                
+
+                <a href="#" data-info="${desc}" data-price32="${p32}" data-price40="${p40}" data-model-url="${model.trim()}">
+                    <strong>${dish}</strong><br>
+                    <small>${desc ? desc : ''}</small><br>
+                    <small>32cm: ${p32 ? p32 : '-'} | 40cm: ${p40 ? p40 : '-'}</small>
+                </a>`;
+
+                pizzaList.appendChild(li);
+
+            });
+
+            console.log("✅ Menu generated from CSV!");
+        })
+        .catch(err => console.error("❌ Error fetching or processing data:", err));
+                        
+
+
+    </script>
   </body>
 </html>

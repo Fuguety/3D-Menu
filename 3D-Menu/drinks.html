@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drinks Menu | 3D Menu</title>
+    
+    <link rel="stylesheet" href="styles.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <script src="public/chat-script.js"></script>
+
+
+  </head>
+  
+    <!-- Floating AI Chat Button -->
+    <div id="chat-toggle" class="chat-toggle">💬</div>
+
+    <!-- Hidden Chat Popup -->
+    <div id="chat-popup" class="chat-popup">
+    <div class="chat-header">
+        <span>AI Assistant</span>
+        <div class="chat-controls">
+            <button id="chat-expand" title="Rezise">⤢</button>
+            <button id="chat-close">×</button>
+        </div>
+    </div>
+    <div id="chat-box" class="chat-box"></div>
+    <form id="chat-form">
+        <input id="chat-input" type="text" placeholder="What are you in the mood for?" />
+        <button type="submit">Send</button>
+    </form>
+    </div>
+
+
+  <body>
+    <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
+    <div class="sidebar-overlay"></div> 
+    
+    <aside class="sidebar"> 
+        <header class="sidebar-header">
+            <a href="index.html" class="site-logo">
+                <span class="logo-main">3D Menu</span>
+                <span class="logo-sub">3D Menu Showcase</span>
+            </a>
+        </header>
+
+        <nav id="main-menu" class="sidebar-nav">
+            <ul>
+                <li class="nav-item"><a href="index.html">Dashboard</a></li>
+                <li class="nav-item has-submenu">
+                    <a href="index.html#food-items">Our Menu</a>
+                    <ul class="submenu">
+                        <li class="nav-item"><a href="index.html">Main Course</a></li>
+                        <li class="nav-item"><a href="drinks.html" style="color: #fff;">Drinks and Wine</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#">Upload Model</a></li>
+                <li class="nav-item"><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+        
+        <footer class="sidebar-footer">
+            <p>&copy; 2025 Pearse Flanagan</p>
+        </footer>
+    </aside>
+    
+    <main class="content">
+        <h3 class="content-title">Drinks & Wine List</h3>
+
+        <div class="menu-container" id="menu-drilldown">
+            <ul>
+                <!-- Menu items will be populated here from CSV -->
+            </ul>
+            
+
+
+        </div>
+    </main>
+    
+    <script>
+
+        // CSV link
+        const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHD1DJau3iVDkIdYuLgVdMXFgaDyTondE--XxKCt5dhPMsyWhzP8DQreQ_syFdzi2Emj5GWIknBctj/pub?gid=1169403815&single=true&output=csv";
+
+        fetch(url)
+        .then(res => res.text())
+        .then(text => {
+            const rows = text.trim().split('\n').map(r => r.split(','));
+            const container = document.querySelector('.menu-container');
+            container.innerHTML = '';
+
+            // headings
+
+            // Alcoholic Drinks
+            const alcTitle = document.createElement('h2');
+            alcTitle.textContent = 'Alcoholic';
+            alcTitle.classList.add('content-title');
+            container.appendChild(alcTitle);
+
+            rows.slice(1).forEach(([type, name, desc, price]) => {
+            if (type !== 'Alcoholic') return;
+
+            const item = document.createElement('div');
+            item.className = 'drink-item';
+            item.innerHTML = `
+                <div class="drink-info">
+                <h4>${name}</h4>
+                <p>${desc || ''}</p>
+                </div>
+                <div class="drink-price">${price || ''}</div>
+            `;
+            container.appendChild(item);
+            });
+
+            // Non-alcoholic Drinks
+            const nonAlcTitle = document.createElement('h2');
+            nonAlcTitle.textContent = 'Non-alcoholic';
+            nonAlcTitle.classList.add('content-title');
+            container.appendChild(nonAlcTitle);
+
+            rows.slice(1).forEach(([type, name, desc, price]) => {
+            if (type !== 'Non-alcoholic') return;
+
+            const item = document.createElement('div');
+            item.className = 'drink-item';
+            item.innerHTML = `
+                <div class="drink-info">
+                <h4>${name}</h4>
+                <p>${desc || ''}</p>
+                </div>
+                <div class="drink-price">${price || ''}</div>
+            `;
+            container.appendChild(item);
+            });
+        })
+        .catch(err => console.error(err));
+
+     
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.querySelector('.mobile-nav-toggle');
+            const overlay = document.querySelector('.sidebar-overlay');
+            const body = document.body;
+
+            function closeSidebar() {
+                body.classList.remove('sidebar-open');
+                toggleBtn.setAttribute('aria-expanded', 'false');
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                const isOpening = !body.classList.contains('sidebar-open');
+                body.classList.toggle('sidebar-open');
+                toggleBtn.setAttribute('aria-expanded', isOpening);
+            });
+
+            overlay.addEventListener('click', closeSidebar);
+            
+            // Allow submenus to expand on mobile
+            const submenuParents = document.querySelectorAll('.has-submenu > a');
+            submenuParents.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if(window.innerWidth <= 900) {
+                        e.preventDefault();
+                        const parent = link.parentElement;
+                        parent.classList.toggle('submenu-open');
+                    }
+                });
+            });
+        });
+    </script>
+  </body>
+</html>
