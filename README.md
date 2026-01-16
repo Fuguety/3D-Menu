@@ -1,5 +1,5 @@
 
-# 3D Menu (A-Frame + Vite) + Gemini Chat API
+# 3D Menu (A-Frame + Vite)
 
 An interactive 3D/VR menu built with **A-Frame** and **Vite**, with an **Express** backend that securely proxies requests to the **Google Gemini API**.
 
@@ -112,8 +112,9 @@ npm run preview   # preview production build
 
 ---
 
-## License
+**License**
 
-See LICENSE file.
+This project is licensed under the **[MIT License](https://opensource.org/license/mit/).**
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
