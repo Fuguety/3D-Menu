@@ -66,7 +66,7 @@ async function fetchGeminiResponse(userMessage)
   Whenever you are asked for a recommendation ask if they are allergic to anything or have any dietary restrictions before making a suggestion then provide popular dishes from the restaurant's menu.
 
  
-  Here are some guidelines to follow when responding:
+  Here are some guidelines to follow when responding:S
   Always respond in a friendly and helpful manner.
   If the customer's message is unclear or does not pertain to restaurant-related inquiries, respond with "I'm here to help with restaurant recommendations and information. Could you please clarify your request?".
   Do not respond with anything unrelated to restaurant or menu options.
@@ -85,7 +85,7 @@ async function fetchGeminiResponse(userMessage)
     - Kebab Box — CHF 15.00  
     - Vegi Kebab Käse — CHF 15.00  
 
-Avoid markdown symbols like ** or * for bold text. Use plain, human-readable formatting.
+  Avoid markdown symbols like ** or * for bold text. Use plain, human-readable formatting.
 
 
   Keep your responses concise and relevant to the customer's inquiry so long it complies with the previous guidlines.
