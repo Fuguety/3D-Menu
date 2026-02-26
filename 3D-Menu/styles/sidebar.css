@@ -1,0 +1,181 @@
+/* --- SIDEBAR & LAYOUT STYLING --- */
+
+.sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    height: 100%;
+    background-color: var(--sidebar-bg-color);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 10;
+    overflow-y: auto;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* --- SIDEBAR LINKS UPDATED TO SOFT GOLD --- */
+.sidebar a {
+    text-decoration: none;
+    color: var(--text-light); /* soft warm gold */
+    transition: all 0.2s ease-in-out;
+}
+
+/* header/logo — use Playfair for logo but keep sizing the same */
+.sidebar-header {
+    padding: 25px 20px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+
+/* --- LUXURY LOGO STYLE --- */
+
+.site-logo {
+  display: inline-block;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: #c7a04a; /* rich gold */
+  transition: text-shadow 0.3s ease, color 0.3s ease;
+}
+
+.logo-main {
+  display: block;
+  font-size: 2.2em;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  color: rgba(247, 226, 174, 0.7);
+}
+
+.logo-sub {
+  display: block;
+  font-size: 0.85em;
+  font-weight: 300;
+  color: rgba(247, 226, 174, 0.7); /* muted gold */
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+
+
+/* FLOATING DROPDOWN STYLES (Level 1 Submenu) */
+.submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    background-color: #2c2c2c;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Show the floating submenu on hover */
+.nav-item.has-submenu:hover .submenu {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Submenu links updated to muted gold */
+.submenu li a {
+    padding: 10px 20px 10px 40px;
+    font-size: 0.95em;
+    color: #e6d9a7; /* slightly muted gold */
+    border-left: none;
+}
+
+/* submenu hover updated to gold */
+.submenu li a:hover {
+    background-color: #404040;
+    color: var(--accent-color);
+    transform: translateX(0);
+}
+
+/* DRILLDOWN VIEW STYLES */
+.drill-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-back-button {
+    display: inline-block;
+    padding: 5px 0;
+    color: var(--accent-color) !important;
+    font-weight: 600 !important;
+    font-size: 0.95em !important;
+    transition: color 0.2s ease;
+}
+
+.nav-back-button:hover {
+    color: #ffffff !important;
+}
+
+
+/* gold glow on hover */
+.site-logo:hover {
+  text-shadow: 0 0 8px rgba(199,160,74,0.7),
+               0 0 15px rgba(199,160,74,0.5),
+               0 0 25px rgba(199,160,74,0.4);
+  color: #ffd87c;
+}
+
+.sidebar-nav {
+    flex-grow: 1;
+    padding: 0 0 20px 0;
+}
+
+.sidebar-nav ul li {
+    position: relative;
+}
+
+.sidebar-nav ul li a {
+    display: block;
+    padding: 15px 20px;
+    font-size: 1.05em;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    border-left: 3px solid transparent;
+    color: var(--text-light); /* soft warm gold */
+}
+
+/* sidebar hover/active styling updated to brown + gold — kept original transform */
+.sidebar-nav ul li a:hover {
+    background-color: var(--hover-bg);
+    color: var(--accent-color);
+    border-left-color: var(--accent-color);
+    transform: translateX(5px);
+}
+
+/* TOOLTIP STYLES (text updated to soft gold) */
+.sidebar-nav ul li a[data-info]:hover::after {
+    content: attr(data-info);
+    position: absolute;
+    left: calc(var(--sidebar-width) + 15px);
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: var(--text-light); /* soft warm gold */
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 300;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    z-index: 1001;
+}
+
+.sidebar-nav ul li a[data-info]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+}

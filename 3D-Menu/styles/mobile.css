@@ -1,0 +1,236 @@
+/* --- MOBILE FIXES -------------------------------------------------- */
+
+@media (max-width: 768px)
+{
+  /* layout becomes vertical */
+  body
+  {
+    flex-direction: row;
+    overflow-y: auto;
+    display: block;
+  }
+
+  /* sidebar full width */
+    .sidebar
+    {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100vh;
+    transition: left 0.3s ease;
+    z-index: 2000;
+    }
+
+    .sidebar.open
+    {
+    left: 0;
+    }
+
+  /* content below sidebar */
+  .content
+  {
+    height: auto;
+    width: 100%;
+    padding: 1rem;
+    margin: 0;
+    padding-top: 80px; 
+  }
+
+  /* smaller viewer window */
+  .viewer-window
+  {
+    height: 300px;
+    width: 100%;
+  }
+
+
+  /* sidebar menu button */
+    .menu-btn 
+    {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 3000;
+
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+    color: var(--accent-color);
+
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(199,160,74,0.3);
+
+    border-radius: 10px;
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+    }
+
+    .menu-btn:hover 
+    {
+    background: rgba(199,160,74,0.15);
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(199,160,74,0.4);
+    }
+
+    .sidebar-header
+    {
+        padding-top: 70px;   
+    }
+
+  /* a-scene responsive */
+  .viewer-window a-scene
+  {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* buttons stack cleanly */
+  #toggleViewBtn,
+  #displayTable
+  {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    transform: scale(0.9);
+    z-index: 20;
+  }
+
+  #displayTable
+  {
+    top: 55px; /* place under the first button */
+  }
+
+  /* smaller text */
+  .content-title
+  {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  /* drilldown menus full width */
+  .sidebar-nav ul li a
+  {
+    padding: 12px 15px;
+    font-size: 1rem;
+  }
+
+  /* hide desktop hover tooltips entirely */
+  .sidebar-nav ul li a[data-info]:hover::after
+  {
+    display: none !important;
+  }
+
+
+
+
+    /* ---------------- CHAT POPUP MOBILE FIX ---------------- */
+
+  .chat-popup
+  {
+    right: 10px;
+    left: 10px;
+    bottom: 10px;
+    width: auto;
+    height: 80vh;
+    border-radius: 8px;
+    font-size: 0.9em;
+  }
+
+  .chat-popup.expanded 
+  {
+    position: fixed !important;
+    inset: auto !important;           /* reset all inherited top/left/right/bottom */
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important; /* true centering */
+    
+    width: 92vw !important;           /* 92% of screen width */
+    max-width: 450px !important;      /* limit width on tablets */
+    height: 70vh !important;          /* larger, but not full height */
+    border-radius: 10px;
+    
+    background-color: #2c1c12;
+    z-index: 99999 !important;
+    transition: all 0.3s ease;
+  }
+
+
+
+
+
+  #chat-box
+  {
+    padding: 10px;
+    font-size: 0.85em;
+    line-height: 1.4;
+  }
+
+  .chat-header
+  {
+    padding: 8px 10px;
+    font-size: 0.95em;
+  }
+
+  .chat-controls button
+  {
+    width: 26px;
+    height: 26px;
+    font-size: 18px;
+  }
+
+  #chat-form
+  {
+    flex-direction: row;
+  }
+
+  #chat-input
+  {
+    font-size: 0.85em;
+    padding: 8px;
+  }
+
+  #chat-form button
+  {
+    padding: 0 12px;
+    font-size: 0.85em;
+  }
+
+  .chat-toggle
+  {
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+    bottom: 15px;
+    right: 15px;
+  }
+
+
+
+  /* make sure header + form stay visible */
+  .chat-header,
+  #chat-form
+  {
+    flex-shrink: 0;
+  }
+
+  /* chat area expands naturally */
+  #chat-box
+  {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+
+  
+}
+
+

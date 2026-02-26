@@ -1,0 +1,311 @@
+/* --- AI CHAT POPUP STYLES (MATCH RESTAURANT THEME) --- */
+
+/* Floating button */
+.chat-toggle
+{
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: var(--accent-color);
+  color: var(--text-dark);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.chat-toggle:hover
+{
+  background-color: #e6c972;
+  transform: scale(1.05);
+}
+
+/* Popup container */
+.chat-popup
+{
+  display: flex;
+  position: fixed;
+  bottom: 95px;
+  right: 25px;
+  width: 320px;
+  height: 420px;
+  background-color: #2c1c12;
+  color: var(--text-light);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  overflow: hidden;
+  flex-direction: column;
+  z-index: 10000;
+}
+
+/* Chat header */
+.chat-header
+{
+  background-color: var(--accent-color);
+  color: var(--text-dark);
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.chat-controls
+{
+  display: flex;
+  align-items: center;
+  gap: 6px;               /* space between buttons */
+}
+
+
+.chat-header button
+{
+  background: transparent;
+  border: none;
+  color: var(--text-dark);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Resize (expand) chat button */
+.chat-controls button
+{
+  background: transparent;
+  border: none;
+  color: var(--text-dark);
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 6px;
+  transition: all 0.25s ease;
+  border-radius: 50%;          /* for circular shape */
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover effect: turns into a gold circle */
+.chat-controls button:hover
+{
+  background-color: rgba(0, 0, 0, 0.15); /* subtle dark circle on hover */
+  transform: scale(1.2);
+}
+
+
+/* Expanded chat popup */
+.chat-popup.expanded
+{
+  width: 520px;   /* wider when expanded */
+  height: 650px;  /* taller when expanded */
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+
+
+/* Chat body */
+.chat-box
+{
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  background-color: #1b120b;
+  white-space: pre-line;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.chat-box p
+{
+  margin: 8px 0;
+}
+
+.chat-box strong
+{
+  color: var(--accent-color);
+}
+
+/* Chat input */
+#chat-form 
+{
+  margin: 0;
+  display: flex;
+  border-top: 1px solid var(--border-color);
+  background-color: #2c1c12;
+}
+
+#chat-input 
+{
+  flex: 1;
+  border: none;
+  background: #26170f;
+  color: var(--text-light);
+  padding: 10px;
+  font-size: 0.9em;
+}
+
+#chat-input:focus {
+  outline: none;
+}
+
+#chat-form button {
+  background-color: var(--accent-color);
+  color: var(--text-dark);
+  border: none;
+  padding: 0 15px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#chat-form button:hover 
+{
+  background-color: #e6c972;
+}
+
+/* Chat messages area */
+#chat-box 
+{
+  flex: 1;
+  min-height: 0;
+  
+  overflow-y: auto;
+  padding: 12px;
+  white-space: pre-line; 
+  line-height: 1.5;      
+  font-size: 0.95em;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) #3a2b20;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;  
+}
+
+/* Optional: differentiate AI and user messages */
+.message.ai 
+{
+  background: #2e2b2b;
+  color: var(--text-light);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 6px 0;
+
+
+  display: inline-block;
+  max-width: 85%;          /* ✅ narrower so text is readable */
+  word-wrap: break-word;
+
+}
+
+.message.user 
+{
+  background: var(--accent-color);
+  color: var(--text-dark);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 6px 0;
+  text-align: right;
+
+  display: inline-block;
+  max-width: 75%;
+  align-self: flex-end;
+
+}
+
+/* Optional: make lists look cleaner */
+.message.ai::marker,
+.message.user::marker {
+  color: var(--accent-color);
+}
+
+/* --- 5. DRINKS MENU PAGE STYLES --- */
+
+/* The container replacing the 3D Viewer */
+.menu-container {
+    width: 100%;
+    max-width: 900px;
+    height: 100vh; /* Full height */
+    max-height: 800px;
+    background-color: #2E2E2E; /* Matches viewer window */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    padding: 3rem;
+    overflow-y: auto; /* Allows scrolling inside the box */
+    box-sizing: border-box;
+}
+
+.menu-section-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--accent-color);
+    font-size: 2rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.menu-section-title:first-child {
+    margin-top: 0;
+}
+
+.drink-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px dashed #444;
+    padding-bottom: 1rem;
+}
+
+.drink-info h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.drink-info p {
+    margin: 5px 0 0 0;
+    font-size: 0.9em;
+    color: #bbb;
+    font-style: italic;
+}
+
+.drink-price {
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    min-width: 60px;
+    text-align: right;
+}
+
+/* Mobile adjustments for the menu */
+@media (max-width: 600px) {
+    .menu-container {
+        padding: 1.5rem;
+    }
+    .menu-section-title {
+        font-size: 1.5rem;
+    }
+    .drink-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .drink-price {
+        margin-top: 5px;
+        text-align: left;
+    }
+}
+

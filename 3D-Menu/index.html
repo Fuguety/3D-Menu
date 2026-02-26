@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>3D Menu VR Dashboard</title>
 
-    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/chatbot.css">
+    <link rel="stylesheet" href="styles/sidebar.css">
+    <link rel="stylesheet" href="styles/mobile.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
@@ -26,7 +30,8 @@
 
     <script src="public/dish-rotation.js"></script>
     <script src="public/chat-script.js"></script>
-
+    <script src="src/main.ts"></script>
+    
   </head>
 
     <!-- Floating AI Chat Button -->
@@ -49,177 +54,135 @@
     </div>
 
 
+
   <body>
         
     
-    <aside class="sidebar"> 
-        <header class="sidebar-header">
-            <a href="/" class="site-logo">
-                <span class="logo-main">3D Menu</span>
-                <span class="logo-sub">3D Menu Showcase</span>
-            </a>
-        </header>
 
-        <nav id="main-menu" class="sidebar-nav current-menu">
-            <ul>
-                <li class="nav-item"><a href="#dashboard" data-info="Overview of your models">Dashboard</a></li>
-                <li class="nav-item has-submenu">
-                    <a href="#food-items" data-info="Browse all our interactive menu items">Our Menu</a>
+    <div class="page-wrapper">
+
+        <main class="content">
+            <h3 class="content-title">Dashboard Overview</h3>
+
+            <div class="viewer-window">
+                <a-scene embedded
+                        renderer="antialias: true;
+                            colorManagement: true;
+                            sortTransparentObjects: true"
+                        fog="type: linear; color: white; near: 1; far: 1000"                    
+                        >
+
+                    <a-assets>
+
+                        <img id="courtain" src="https://media.istockphoto.com/id/174898663/photo/stage-curtain-red-velvet.jpg?s=612x612&w=0&k=20&c=L7hGSJAvEDXUXCbJOGEIxnJQnTxhWkmNqkrayIkAn5A=" />
+                        <img id="wood" src="https://media.istockphoto.com/id/1423614623/photo/bamboo-wood-texture-background.jpg?s=612x612&w=0&k=20&c=eOGzTIhcgyI8JO2B6-2Go8kCzcin59hjK6eZtiz6uDo=" />
+                        <img id="concrete" src="https://images.photowall.com/products/62937/solid-concrete-wall.jpg?h=699&q=85" />
+
+                        <a-assets-item id="light_bulb" src="/models/light_bulb.glb"></a-assets-item>
+                        <a-assets-item id="fork_model" src="/models/Fork.glb"></a-assets-item>
+                        <a-assets-item id="knife_model" src="/models/Knife.glb"></a-assets-item>
+
+                    </a-assets>
+
+
+
+
+                    <button id="toggleViewBtn"
+                        style="position: relative; top: 10px; left: 10px; z-index: 999;">
+                        Enable Camera Look
+                    </button>
+
+
+
+                    <!-- Camera -->
+                    <a-entity id="MainCamera"
+                        camera
+                        look-controls="enabled: false; pointerLockEnabled: false"
+                        orbit-controls="
+                            enabled: true;
+                            target: 0 0.6 0;
+                            enableDamping: true;
+                            enablePan: false;
+                            minDistance: 0.5;
+                            maxDistance: 1;
+                        "
+                        position="0 1.5 0.25"
+                        rotation="-75 0 0"
+                        cursor="rayOrigin: mouse">
+                    </a-entity>
+
+
+                    <a-entity id="Environment">
+
+
+                        <!-- Back curtain -->
+                        <a-plane position="0 2.2 -2.2" rotation="0 0 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                        <!-- Front curtain -->
+                        <a-plane position="0 2.2 2.2" rotation="0 180 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                        <!-- Left curtain -->
+                        <a-plane position="-2.2 2.2 0" rotation="0 90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                        <!-- Right curtain -->
+                        <a-plane position="2.2 2.2 0" rotation="0 -90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
+                        <!-- Top curtain -->
+                        <a-plane position="0 3.2 0" rotation="90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
+                        <!-- Bottom curtain (optional floor) -->
+                        <a-plane position="0 0 0" rotation="-90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
                     
-                    <ul class="submenu">
-                        <li class="nav-item"> 
-                            <a href="#" data-drilldown-target="menu-drilldown">Main Course</a>
-                        </li>
+                        <!-- Light bulb -->
+                        <a-entity id="LightBulb" position="0 3 0" rotation="180 0 0" gltf-model="#light_bulb" scale="0.5 0.5 0.5">
+                                <!--
+                                    <a-light id="Light" type="point" color="#ffffff" intensity="8" castShadow="true" position="0 3 0"></a-light>
+                                -->
 
-                        <li class="nav-item"><a href="drinks.html">Drinks and Wine</a></li>
+                        </a-entity>
+
+                        <a-entity id="Display Table">
+
+                            <!-- Fork on top of table -->
+                            <a-entity position="0.5 0.9 0" gltf-model="#fork_model" rotation="0 -90 0" scale="0.09 0.09 0.09"></a-entity>
+                            <!-- Knife on top of table -->
+                            <a-entity position="-0.5 0.9 0" gltf-model="#knife_model" rotation="0 -90 0" scale="0.09 0.09 0.09"></a-entity>
+
+                            <!-- Top plane -->
+                            <a-box position="0 0.5 0" rotation="0 0 0" width="3.5" height="0.1" depth="3.5" material="src: #wood"></a-box>
+                            <!-- left pole -->
+                            <a-box position="-1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                            <!-- right pole -->
+                            <a-box position="1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                            <!-- left support -->
+                            <a-box position="-1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+                            <!-- right support -->
+                            <a-box position="1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
+
+                        </a-entity>
+
+
+                    </a-entity>
+
+
+                    <!-- Dish Model Placeholder -->
+                    <a-entity id="Dish" dish-rotation position="0 0.6 0"/>
                         
-                    </ul>
-                </li>
-                <li class="nav-item"><a href="#upload-model" data-info="Add new 3D food models">Upload Model</a></li>
-                <li class="nav-item"><a href="#settings" data-info="Need help?">Contact Us</a></li>
-            </ul>
-        </nav>
-        
-        <nav id="menu-drilldown" class="sidebar-nav drilldown-menu" style="display:none;">
-            <div class="drill-header">
-            <a href="#" class="nav-back-button" data-drilldown-back>← Back to Menu</a>
+                        
+
+
+                    
+                    
+                    
+                    </a-scene>
+                
+                <p id="viewer-placeholder">Click an item on the menu to view the interactive 3D model here.</p>
             </div>
 
-            <ul></ul> <!-- Code will populate this -->
-
-        </nav>
-
-
         
-        <footer class="sidebar-footer">
-            <p>&copy; 2025 Pearse Flanagan</p>
-        </footer>
-    </aside>
+        
+        </main>
+
+    </div>
     
 
 
 
-
-
-    <main class="content">
-        <h3 class="content-title">Dashboard Overview</h3>
-
-        <div class="viewer-window">
-            <a-scene embedded
-                    renderer="antialias: true;
-                        colorManagement: true;
-                        sortTransparentObjects: true"
-                    fog="type: linear; color: white; near: 1; far: 1000"                    
-                    >
-
-                <a-assets>
-
-                    <img id="courtain" src="https://media.istockphoto.com/id/174898663/photo/stage-curtain-red-velvet.jpg?s=612x612&w=0&k=20&c=L7hGSJAvEDXUXCbJOGEIxnJQnTxhWkmNqkrayIkAn5A=" />
-                    <img id="wood" src="https://media.istockphoto.com/id/1423614623/photo/bamboo-wood-texture-background.jpg?s=612x612&w=0&k=20&c=eOGzTIhcgyI8JO2B6-2Go8kCzcin59hjK6eZtiz6uDo=" />
-                    <img id="concrete" src="https://images.photowall.com/products/62937/solid-concrete-wall.jpg?h=699&q=85" />
-
-                    <a-assets-item id="light_bulb" src="./public/models/light_bulb.glb"></a-assets-item>
-                    <a-assets-item id="fork_model" src="./public/models/Fork.glb"></a-assets-item>
-                    <a-assets-item id="knife_model" src="./public/models/Knife.glb"></a-assets-item>
-
-                </a-assets>
-
-
-
-
-                <button id="toggleViewBtn"
-                    style="position: relative; top: 10px; left: 10px; z-index: 999;">
-                    Enable Camera Look
-                </button>
-
-                <button onclick="location.href='table-ar.html?model='" id="displayTable"
-                    style="position: relative; top: 10px; left: 10px; z-index: 999;">
-                Show on Table (AR)
-                </button>
-
-
-
-                <!-- Camera -->
-                <a-entity id="MainCamera"
-                    camera
-                    look-controls="enabled: false; pointerLockEnabled: false"
-                    orbit-controls="
-                        enabled: true;
-                        target: 0 0.6 0;
-                        enableDamping: true;
-                        enablePan: false;
-                        minDistance: 0.5;
-                        maxDistance: 1;
-                    "
-                    position="0 1.5 0.25"
-                    rotation="-75 0 0"
-                    cursor="rayOrigin: mouse">
-                </a-entity>
-
-
-                <a-entity id="Environment">
-
-
-                    <!-- Back curtain -->
-                    <a-plane position="0 2.2 -2.2" rotation="0 0 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-                    <!-- Front curtain -->
-                    <a-plane position="0 2.2 2.2" rotation="0 180 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-                    <!-- Left curtain -->
-                    <a-plane position="-2.2 2.2 0" rotation="0 90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-                    <!-- Right curtain -->
-                    <a-plane position="2.2 2.2 0" rotation="0 -90 0" width="5" height="5" material="src: #courtain; side: double"></a-plane>
-                    <!-- Top curtain -->
-                    <a-plane position="0 3.2 0" rotation="90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
-                    <!-- Bottom curtain (optional floor) -->
-                    <a-plane position="0 0 0" rotation="-90 0 0" width="5" height="5" material="src: #concrete; side: double"></a-plane>
-                
-                    <!-- Light bulb -->
-                    <a-entity id="LightBulb" position="0 3 0" rotation="180 0 0" gltf-model="#light_bulb" scale="0.5 0.5 0.5">
-                            <!--
-                                 <a-light id="Light" type="point" color="#ffffff" intensity="8" castShadow="true" position="0 3 0"></a-light>
-                            -->
-
-                    </a-entity>
-
-                    <a-entity id="Display Table">
-
-                        <!-- Fork on top of table -->
-                        <a-entity position="0.5 0.9 0" gltf-model="#fork_model" rotation="0 -90 0" scale="0.09 0.09 0.09"></a-entity>
-                        <!-- Knife on top of table -->
-                        <a-entity position="-0.5 0.9 0" gltf-model="#knife_model" rotation="0 -90 0" scale="0.09 0.09 0.09"></a-entity>
-
-                        <!-- Top plane -->
-                        <a-box position="0 0.5 0" rotation="0 0 0" width="3.5" height="0.1" depth="3.5" material="src: #wood"></a-box>
-                        <!-- left pole -->
-                        <a-box position="-1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-                        <!-- right pole -->
-                        <a-box position="1.75 0 1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-                        <!-- left support -->
-                        <a-box position="-1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-                        <!-- right support -->
-                        <a-box position="1.75 0 -1.75" width="0.1" height="1.4" depth="0.1" material="src: #wood"></a-box>
-
-                    </a-entity>
-
-
-                </a-entity>
-
-
-                <!-- Dish Model Placeholder -->
-                <a-entity id="Dish" dish-rotation position="0 0.6 0"/>
-                    
-                    
-
-
-                
-                
-                
-                </a-scene>
-            
-            <p id="viewer-placeholder">Click an item on the menu to view the interactive 3D model here.</p>
-        </div>
-    </main>
-    
     <script>
 
 
@@ -452,6 +415,10 @@
                         
 
 
+
+
+
     </script>
+    
   </body>
 </html>

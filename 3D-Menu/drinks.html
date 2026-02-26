@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Drinks Menu | 3D Menu</title>
     
-    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/chatbot.css">
+    <link rel="stylesheet" href="styles/sidebar.css">
+    <link rel="stylesheet" href="styles/mobile.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <script src="public/chat-script.js"></script>
+    <script src="src/main.ts"></script>
 
 
   </head>
@@ -34,51 +39,26 @@
 
 
   <body>
-    <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-    </button>
-    <div class="sidebar-overlay"></div> 
     
-    <aside class="sidebar"> 
-        <header class="sidebar-header">
-            <a href="index.html" class="site-logo">
-                <span class="logo-main">3D Menu</span>
-                <span class="logo-sub">3D Menu Showcase</span>
-            </a>
-        </header>
+    <div class="page-wrapper">
 
-        <nav id="main-menu" class="sidebar-nav">
-            <ul>
-                <li class="nav-item"><a href="index.html">Dashboard</a></li>
-                <li class="nav-item has-submenu">
-                    <a href="index.html#food-items">Our Menu</a>
-                    <ul class="submenu">
-                        <li class="nav-item"><a href="index.html">Main Course</a></li>
-                        <li class="nav-item"><a href="drinks.html" style="color: #fff;">Drinks and Wine</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a href="#">Upload Model</a></li>
-                <li class="nav-item"><a href="#">Contact Us</a></li>
-            </ul>
-        </nav>
-        
-        <footer class="sidebar-footer">
-            <p>&copy; 2025 Pearse Flanagan</p>
-        </footer>
-    </aside>
-    
-    <main class="content">
-        <h3 class="content-title">Drinks & Wine List</h3>
+        <main class="content">
+            <h3 class="content-title">Drinks & Wine List</h3>
 
-        <div class="menu-container" id="menu-drilldown">
-            <ul>
-                <!-- Menu items will be populated here from CSV -->
-            </ul>
-            
+            <div class="menu-container" id="menu-drilldown">
+                <ul>
+                    <!-- Menu items will be populated here from CSV -->
+                </ul>
+                
 
 
-        </div>
-    </main>
+            </div>
+
+
+
+        </main>
+
+    </div>
     
     <script>
 
@@ -172,6 +152,11 @@
                 });
             });
         });
+
+
+
+
+
     </script>
   </body>
 </html>
